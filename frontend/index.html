@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Resume Checker & AI Interview Coach - Optimize your resume for ATS filters, detect skill gaps, and prepare for job interviews.">
+  <title>AI Resume Coach | Build a Resume That Gets Noticed</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/home.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-header">
+    <div class="container landing-nav" style="padding: 0;">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-badge">I</div>
+        <span>AI Resume <span>Coach</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-menu" style="display: flex; gap: 1.5rem; list-style: none; align-items: center;">
+          <li><a href="dashboard.html" class="nav-link">Dashboard</a></li>
+          <li><a href="pages/role.html" class="nav-link">Job Roles</a></li>
+          <li><a href="pages/upload.html" class="nav-link">Upload Resume</a></li>
+          <li><a href="pages/matcher.html" class="nav-link">Job Matcher</a></li>
+          <li><a href="pages/interview.html" class="nav-link">Interview Coach</a></li>
+          <li><a href="pages/about.html" class="nav-link">About</a></li>
+          <li><a href="pages/contact.html" class="nav-link">Contact</a></li>
+          <li><button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button></li>
+          <li><a href="pages/role.html" class="btn btn-primary btn-sm">Analyze Resume</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge">⚡ Real-Time ATS Intelligence</div>
+          <h1 class="hero-title">Build a Resume That <span class="gradient-text">Gets Noticed.</span></h1>
+          <p class="hero-description">
+            Analyze your resume, improve your ATS score, identify missing skills, and prepare for your next interview with data-backed feedback.
+          </p>
+          <div class="hero-ctas">
+            <a href="pages/role.html" class="btn btn-primary btn-lg">Analyze My Resume</a>
+            <a href="#features" class="btn btn-outline btn-lg">Explore Features</a>
+          </div>
+        </div>
+
+        <!-- Interactive Preview Card -->
+        <div class="hero-graphic-container">
+          <div class="hero-graphic-card">
+            <div class="preview-header">
+              <div class="window-dots">
+                <span class="window-dot red"></span>
+                <span class="window-dot yellow"></span>
+                <span class="window-dot green"></span>
+              </div>
+              <span class="badge badge-success">Candidate Analysis Active</span>
+            </div>
+
+            <div class="preview-stats-row">
+              <div class="preview-stat-box">
+                <div class="preview-score-num" id="heroScore">82%</div>
+                <div class="preview-score-label">Overall ATS Score</div>
+              </div>
+              <div class="preview-stat-box">
+                <div class="preview-score-num" style="color: var(--color-success);">88%</div>
+                <div class="preview-score-label">Job Match Rate</div>
+              </div>
+            </div>
+
+            <div class="preview-bars">
+              <div class="preview-bar-row">
+                <div class="preview-bar-label">
+                  <span>Skills & Keywords Match</span>
+                  <strong>85%</strong>
+                </div>
+                <div class="progress-bar-outer">
+                  <div class="progress-bar-inner" style="width: 85%;"></div>
+                </div>
+              </div>
+
+              <div class="preview-bar-row">
+                <div class="preview-bar-label">
+                  <span>Resume Formatting & Sections</span>
+                  <strong>90%</strong>
+                </div>
+                <div class="progress-bar-outer">
+                  <div class="progress-bar-inner" style="width: 90%;"></div>
+                </div>
+              </div>
+
+              <div class="preview-bar-row">
+                <div class="preview-bar-label">
+                  <span>Experience Impact & Metrics</span>
+                  <strong>78%</strong>
+                </div>
+                <div class="progress-bar-outer">
+                  <div class="progress-bar-inner" style="width: 78%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2>Engineered for Modern Hiring</h2>
+          <p>Everything you need to turn your raw resume into a recruiter magnet and ace the interview room.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">📄</div>
+            <h3 class="feature-title">Resume Analysis</h3>
+            <p class="feature-desc">Deep text extraction from real PDF and DOCX documents with automated section identification and structural validation.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">🎯</div>
+            <h3 class="feature-title">ATS Score Engine</h3>
+            <p class="feature-desc">A transparent, rule-based algorithmic scoring engine evaluating keywords, formatting, skills, and quantifiable impact.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">🔍</div>
+            <h3 class="feature-title">Skill Gap Detection</h3>
+            <p class="feature-desc">Automatically pinpoints crucial technologies and hard skills required by your dream role that are missing from your resume.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">⚡</div>
+            <h3 class="feature-title">Job Matching</h3>
+            <p class="feature-desc">Paste any real job description or select from 15 curated tech roles to calculate compatibility percentages and missing keywords.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">💡</div>
+            <h3 class="feature-title">AI Suggestions</h3>
+            <p class="feature-desc">Get high-impact bullet point rewrites, summary enhancements, and power action verbs without hallucinated experiences.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon-wrapper">🎙️</div>
+            <h3 class="feature-title">Interview Preparation</h3>
+            <p class="feature-desc">Practice with tailored technical and behavioral questions derived directly from your resume projects and target position.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WORKFLOW SECTION -->
+    <section class="workflow-section">
+      <div class="container">
+        <div class="section-header">
+          <h2>How It Works</h2>
+          <p>Five seamless steps to land your next high-paying tech role.</p>
+        </div>
+
+        <div class="workflow-steps-grid">
+          <div class="workflow-step-card">
+            <div class="workflow-num">1</div>
+            <h4 class="workflow-title">Upload Resume</h4>
+            <p class="workflow-desc">Drop your PDF or DOCX file with instant validation.</p>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="workflow-num">2</div>
+            <h4 class="workflow-title">Parse Document</h4>
+            <p class="workflow-desc">Extract raw text, contact info, and structural sections.</p>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="workflow-num">3</div>
+            <h4 class="workflow-title">Analyze & Score</h4>
+            <p class="workflow-desc">Compute rule-based ATS metrics and keyword coverage.</p>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="workflow-num">4</div>
+            <h4 class="workflow-title">Improve Phrasing</h4>
+            <p class="workflow-desc">Refine bullet points with measurable impact metrics.</p>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="workflow-num">5</div>
+            <h4 class="workflow-title">Prepare for Interview</h4>
+            <p class="workflow-desc">Simulate realistic interview trials with AI feedback.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer style="border-top: 1px solid var(--border-subtle); padding: 3rem 0; background: var(--bg-surface);">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: gap: 1rem;">
+      <div class="brand-logo">
+        <div class="logo-badge">I</div>
+        <span>AI Resume <span>Coach</span></span>
+      </div>
+      <p style="font-size: 0.88rem; color: var(--text-muted);">&copy; 2026 AI Resume Coach. All rights reserved.</p>
+      <div style="display: flex; gap: 1.5rem; font-size: 0.88rem;">
+        <a href="pages/about.html" class="nav-link">About</a>
+        <a href="pages/contact.html" class="nav-link">Contact</a>
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

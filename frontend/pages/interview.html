@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Interview Coach - Prepare for job interviews with questions customized to your actual resume and get AI answer evaluation.">
+  <title>AI Interview Coach | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link active">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">AI Interview Coach & Mock Practice</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <button id="btnRegenerateQuestions" class="btn btn-outline btn-sm">🔄 Regenerate Questions</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- INTRO BANNER -->
+        <div class="card card-glass" style="margin-bottom: 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h2>Personalized Technical & Behavioral Interview Simulation</h2>
+              <p>Questions are synthesized specifically from the projects, skills, and background in your resume for <strong id="interviewTargetRoleDisplay" style="color: var(--accent-blue);">Software Engineer</strong>.</p>
+            </div>
+            <span class="badge badge-accent" id="questionsCountBadge">6 Questions Generated</span>
+          </div>
+        </div>
+
+        <div id="aiNoticeBox" style="display: none; margin-bottom: 1.5rem;"></div>
+
+        <!-- CATEGORY TABS -->
+        <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 4px;">
+          <button class="btn btn-primary btn-sm filter-btn active" data-filter="all">All Questions</button>
+          <button class="btn btn-outline btn-sm filter-btn" data-filter="Technical">Technical</button>
+          <button class="btn btn-outline btn-sm filter-btn" data-filter="Project">Projects</button>
+          <button class="btn btn-outline btn-sm filter-btn" data-filter="Behavioral">Behavioral</button>
+          <button class="btn btn-outline btn-sm filter-btn" data-filter="Role-specific">Role-Specific</button>
+        </div>
+
+        <!-- QUESTIONS LIST GRID -->
+        <div id="questionsContainer" style="display: grid; grid-template-columns: 1fr; gap: 1.25rem; margin-bottom: 2.5rem;">
+          <div style="text-align: center; color: var(--text-muted); padding: 3rem;">Loading tailored questions...</div>
+        </div>
+
+        <!-- INTERACTIVE PRACTICE MODAL / CARD -->
+        <div id="practiceSection" class="card" style="display: none; border: 2px solid var(--accent-blue); margin-bottom: 2rem;">
+          <div class="card-header">
+            <h3 class="card-title">🎙️ Mock Interview Response Arena</h3>
+            <button class="btn btn-outline btn-sm" id="btnClosePractice">✕ Close</button>
+          </div>
+
+          <div style="margin-bottom: 1.25rem;">
+            <div style="display: flex; gap: 8px; margin-bottom: 6px;">
+              <span class="badge badge-accent" id="activeCategoryBadge">Technical</span>
+              <span class="badge badge-warning" id="activeDifficultyBadge">Medium</span>
+            </div>
+            <h3 id="activeQuestionText" style="font-size: 1.2rem; color: var(--text-primary); line-height: 1.4;">
+              Question text appears here...
+            </h3>
+            <p id="activeQuestionContext" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"></p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="userAnswerInput">Your Answer</label>
+            <textarea id="userAnswerInput" class="form-textarea" placeholder="Type your structured answer here. Include specific technologies, challenges encountered, decisions made, and measurable outcomes..." style="min-height: 160px;"></textarea>
+          </div>
+
+          <div style="display: flex; gap: 1rem;">
+            <button id="btnSubmitAnswer" class="btn btn-primary">
+              <span>🚀</span> Submit for AI Evaluation
+            </button>
+            <button id="btnClearAnswer" class="btn btn-outline">Clear</button>
+          </div>
+
+          <!-- EVALUATION FEEDBACK CONTAINER -->
+          <div id="evaluationResultBox" style="display: none; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+            <h4 style="margin-bottom: 1rem; color: var(--text-primary);">📊 AI Interview Coach Performance Evaluation</h4>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+              <div class="stat-card" style="padding: 1rem; text-align: center;">
+                <span class="stat-label">Overall Score</span>
+                <div class="stat-value" id="evalOverallScore" style="color: var(--accent-blue);">85%</div>
+              </div>
+              <div class="stat-card" style="padding: 1rem; text-align: center;">
+                <span class="stat-label">Technical Accuracy</span>
+                <div class="stat-value" id="evalTechScore">80%</div>
+              </div>
+              <div class="stat-card" style="padding: 1rem; text-align: center;">
+                <span class="stat-label">Clarity</span>
+                <div class="stat-value" id="evalClarityScore">85%</div>
+              </div>
+              <div class="stat-card" style="padding: 1rem; text-align: center;">
+                <span class="stat-label">Communication</span>
+                <div class="stat-value" id="evalCommScore">90%</div>
+              </div>
+            </div>
+
+            <!-- Feedback Paragraph -->
+            <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
+              <h5 style="margin-bottom: 6px; color: var(--accent-blue);">Coach Critique</h5>
+              <p id="evalFeedbackText" style="font-size: 0.92rem; line-height: 1.6; color: var(--text-primary);"></p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
+              <div>
+                <h5 style="color: var(--color-success); margin-bottom: 6px;">✓ What You Did Well</h5>
+                <ul class="check-list" id="evalStrengthsList"></ul>
+              </div>
+              <div>
+                <h5 style="color: var(--color-warning); margin-bottom: 6px;">⚠️ Areas for Growth</h5>
+                <ul class="warning-list" id="evalImprovementsList"></ul>
+              </div>
+            </div>
+
+            <!-- Model Answer -->
+            <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-md); padding: 1.25rem;">
+              <h5 style="color: var(--accent-blue); margin-bottom: 6px;">💡 Suggested Ideal Answer Structure</h5>
+              <p id="evalModelAnswer" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);"></p>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/interview.js"></script>
+</body>
+</html>

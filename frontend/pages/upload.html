@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Upload your PDF or DOCX resume to start the ATS parsing and job match score calculation.">
+  <title>Upload Resume | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/upload.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link active">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Resume Upload</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <span class="badge badge-accent">Target: <strong id="headerTargetRole">Software Engineer</strong></span>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- STEPPER -->
+        <div class="stepper-nav">
+          <div class="stepper-step completed">1. Job Role Selected</div>
+          <div class="stepper-line active"></div>
+          <div class="stepper-step active">2. Upload Resume</div>
+          <div class="stepper-line"></div>
+          <div class="stepper-step">3. ATS Analysis Report</div>
+        </div>
+
+        <div class="upload-container">
+          <!-- HEADER -->
+          <div class="upload-header" style="text-align: center;">
+            <h2>Upload Your Resume for <span id="target-role-badge" style="color: var(--accent-blue);">Selected Role</span></h2>
+            <p>Our document parsing engine will extract your text and evaluate structural formatting, skills, and keyword relevance in real-time.</p>
+          </div>
+
+          <!-- UPLOAD CARD -->
+          <div class="upload-card">
+            <!-- Dropzone -->
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="fileInput" accept=".pdf,.docx" style="display: none;">
+              
+              <div class="dropzone-content">
+                <div class="dropzone-icon">📄</div>
+                <h3 class="dropzone-text">Drag and drop your resume file here</h3>
+                <p class="dropzone-subtext">or <span class="browse-link">browse files</span> from your device</p>
+                <p class="file-limit-info">Supports PDF or DOCX • Maximum supported size: 5MB</p>
+              </div>
+            </div>
+
+            <!-- Selected File Preview Card -->
+            <div class="file-preview-card" id="filePreview" style="display: none;">
+              <div class="file-preview-info">
+                <div class="file-icon">📝</div>
+                <div class="file-meta">
+                  <span class="file-name" id="fileName">my-resume.pdf</span>
+                  <span class="file-size" id="fileSize">145 KB</span>
+                </div>
+              </div>
+              <button class="btn-remove-file" id="btnRemoveFile" title="Remove File" aria-label="Remove Uploaded File">✕</button>
+            </div>
+
+            <!-- Action Bar -->
+            <div class="action-bar">
+              <a href="role.html" class="btn btn-outline">Change Role</a>
+              <button class="btn btn-primary" id="btnContinue" disabled>
+                <span>🚀</span> Start Real-Time Analysis
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/upload.js"></script>
+</body>
+</html>

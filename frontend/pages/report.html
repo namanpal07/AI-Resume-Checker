@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View your comprehensive ATS resume analysis report, identify skills gaps, and optimize formatting.">
+  <title>ATS Analysis Report | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/report.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">ATS Analysis Report</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <a href="upload.html" class="btn btn-outline btn-sm">Upload New</a>
+          <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ Print / Save PDF</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- STEPPER -->
+        <div class="stepper-nav">
+          <div class="stepper-step completed">1. Job Role Selected</div>
+          <div class="stepper-line active"></div>
+          <div class="stepper-step completed">2. Upload Resume</div>
+          <div class="stepper-line active"></div>
+          <div class="stepper-step active">3. ATS Analysis Report</div>
+        </div>
+
+        <!-- REPORT HEADER INFO -->
+        <div class="report-header">
+          <div>
+            <h2 style="font-size: 1.6rem; margin-bottom: 0.25rem;">Resume Evaluation Dashboard</h2>
+            <p>Targeted Position: <strong id="role-name" style="color: var(--accent-blue);">Loading...</strong> • File: <span id="report-file-name" style="color: var(--text-primary);">Resume.pdf</span></p>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <a href="improve.html" class="btn btn-primary btn-sm">✨ Improve Phrasing with AI</a>
+            <a href="interview.html" class="btn btn-outline btn-sm">🎙️ Start Mock Interview</a>
+          </div>
+        </div>
+
+        <!-- ROW 1: CIRCULAR SCORE + DETAILED BREAKDOWN -->
+        <div class="report-grid">
+          <!-- Circular Score Card -->
+          <div class="card score-panel">
+            <h3 class="card-title" style="margin-bottom: 1.5rem;">Overall ATS Compatibility</h3>
+            
+            <div id="ats-score">
+              <!-- Rendered via report.js SVG gauge -->
+              <div class="circle-gauge-container">
+                <svg class="circle-gauge-svg" viewBox="0 0 160 160">
+                  <circle class="circle-gauge-bg" cx="80" cy="80" r="68"></circle>
+                  <circle class="circle-gauge-fill" id="scoreCircleFill" cx="80" cy="80" r="68" stroke-dasharray="427" stroke-dashoffset="427"></circle>
+                </svg>
+                <div class="circle-gauge-content">
+                  <span class="circle-gauge-score" id="circleScoreValue">0</span>
+                  <span class="circle-gauge-subtext">/ 100 Score</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="score-caption" id="scoreVerdict">Calculating rule-based ATS evaluation...</p>
+            <div style="margin-top: 1rem;" id="scoreBadgeContainer"></div>
+          </div>
+
+          <!-- Compatibility Breakdown -->
+          <div class="card metrics-panel">
+            <div class="card-header">
+              <h3 class="card-title">Detailed Compatibility Breakdown</h3>
+              <span class="badge badge-accent">Algorithmic Weights</span>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Keyword Match (30%)</span>
+                  <strong class="metric-value" id="val-keywords">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-keywords" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Skills Match (25%)</span>
+                  <strong class="metric-value" id="val-skills">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-skills" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Resume Structure (15%)</span>
+                  <strong class="metric-value" id="val-structure">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-structure" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Formatting & Quality (10%)</span>
+                  <strong class="metric-value" id="val-formatting">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-formatting" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Experience & Metrics (10%)</span>
+                  <strong class="metric-value" id="val-experience">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-experience" style="width: 0%;"></div></div>
+              </div>
+
+              <div class="metric-item">
+                <div class="metric-meta">
+                  <span class="metric-label">Education Standards (10%)</span>
+                  <strong class="metric-value" id="val-education">0%</strong>
+                </div>
+                <div class="progress-bar-outer"><div class="progress-bar-inner" id="bar-education" style="width: 0%;"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2: RESUME SUMMARY & DETECTED SECTIONS -->
+        <div class="two-col-grid">
+          <!-- Summary Panel -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📝 Resume Overview & Profile</h3>
+            </div>
+            <div id="resume-summary" style="font-size: 0.95rem; line-height: 1.6; color: var(--text-secondary);">
+              Loading summary...
+            </div>
+          </div>
+
+          <!-- Section Detection Panel -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📑 Section Structure Verification</h3>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Standard ATS parser section detection results:</p>
+            <div class="sections-checklist" id="sectionsChecklist">
+              <!-- Populated via report.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 3: STRENGTHS & WEAKNESSES -->
+        <div class="two-col-grid">
+          <!-- Strengths -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-success);">✓ Key Identified Strengths</h3>
+            </div>
+            <div id="strength-list">
+              <!-- Populated via report.js -->
+            </div>
+          </div>
+
+          <!-- Improvement Suggestions -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-warning);">⚠️ Areas for Improvement</h3>
+            </div>
+            <div id="suggestions">
+              <!-- Populated via report.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 4: SKILLS MATCH & MISSING KEYWORDS -->
+        <div class="two-col-grid">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-success);">🛠️ Detected Technical Skills</h3>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Technical skills verified within your uploaded document:</p>
+            <div class="tags-cloud" id="detected-skills"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title" style="color: var(--color-danger);">🎯 Missing Target Role Skills</h3>
+              <a href="matcher.html" class="btn btn-outline btn-sm">Compare with Custom JD</a>
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">ATS filters scan for these in-demand competencies for your targeted role:</p>
+            <div class="tags-cloud" id="missing-keywords"></div>
+          </div>
+        </div>
+
+        <!-- ROW 5: ACTION CARDS -->
+        <div class="card" style="margin-top: 1.5rem;">
+          <div class="card-header">
+            <h3 class="card-title">🚀 Recommended Action Plan</h3>
+          </div>
+          <div class="actions-grid">
+            <div class="action-card">
+              <div class="action-num">01</div>
+              <div>
+                <h4 style="margin-bottom: 4px;">Incorporate Missing Skills</h4>
+                <p style="font-size: 0.85rem;">Add verified technical proficiencies like <strong id="actionMissingSample">missing keywords</strong> into your technical skills section.</p>
+              </div>
+            </div>
+            <div class="action-card">
+              <div class="action-num">02</div>
+              <div>
+                <h4 style="margin-bottom: 4px;">Quantify Bullet Points</h4>
+                <p style="font-size: 0.85rem;">Replace generic duties with action verbs + measurable metrics (e.g., 'reduced API response latency by 35%').</p>
+              </div>
+            </div>
+            <div class="action-card">
+              <div class="action-num">03</div>
+              <div>
+                <h4 style="margin-bottom: 4px;">Practice Real Interviews</h4>
+                <p style="font-size: 0.85rem;">Use our AI Interview Coach to practice technical and behavioral questions derived directly from your resume.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM ACTIONS -->
+        <div class="report-bottom-ctas">
+          <a href="upload.html" class="btn btn-outline">Upload Another Resume</a>
+          <a href="role.html" class="btn btn-outline">Change Target Role</a>
+          <a href="matcher.html" class="btn btn-outline">Match Custom JD</a>
+          <a href="improve.html" class="btn btn-secondary">✨ AI Resume Improvement</a>
+          <a href="interview.html" class="btn btn-primary">🎙️ Practice Interview Now</a>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/report.js"></script>
+</body>
+</html>

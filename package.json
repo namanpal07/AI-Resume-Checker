@@ -1,0 +1,23 @@
+{
+  "name": "ai-resume-checker-fullstack",
+  "version": "1.0.0",
+  "description": "AI Resume Checker and AI Interview Coach Full Stack Application",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "install:backend": "npm --prefix backend install",
+    "install:all": "npm --prefix backend install"
+  },
+  "keywords": [
+    "ai",
+    "resume-checker",
+    "ats",
+    "interview-coach",
+    "gemini",
+    "express",
+    "mongodb"
+  ],
+  "author": "",
+  "license": "ISC"
+}

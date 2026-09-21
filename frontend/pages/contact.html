@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Send your questions or feedback regarding the AI Resume Coach platform.">
+  <title>Contact Us | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/contact.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link active">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Contact & Feedback</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div class="card card-glass" style="max-width: 680px; margin: 0 auto 2rem; text-align: center;">
+          <h2>Get In Touch</h2>
+          <p>Have questions, feature requests, or encountered an issue with your resume scan? Send us a message and our development team will review it.</p>
+        </div>
+
+        <div class="contact-card">
+          <form id="contactForm" class="contact-form">
+            <div class="form-group">
+              <label class="form-label" for="contactName">Your Full Name *</label>
+              <input type="text" id="contactName" class="form-input" placeholder="e.g. Alex Morgan" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactEmail">Email Address *</label>
+              <input type="email" id="contactEmail" class="form-input" placeholder="alex@example.com" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactSubject">Subject</label>
+              <input type="text" id="contactSubject" class="form-input" placeholder="e.g. ATS Scoring Feedback or Question">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="contactMessage">Your Message *</label>
+              <textarea id="contactMessage" class="form-textarea" placeholder="Describe your question, issue, or feedback in detail..." required></textarea>
+            </div>
+
+            <button type="submit" id="btnSubmitContact" class="btn btn-primary btn-lg" style="width: 100%;">
+              <span>✉️</span> Send Message to Team
+            </button>
+          </form>
+
+          <div id="contactSuccessNotice" style="display: none; margin-top: 1.5rem; padding: 1.25rem; background: var(--color-success-bg); border: 1px solid var(--color-success); border-radius: var(--radius-md); color: var(--color-success); text-align: center;">
+            <div style="font-size: 1.5rem; margin-bottom: 4px;">✓</div>
+            <strong>Thank you!</strong> Your message has been saved in our MongoDB records. We'll be in touch soon.
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/contact.js"></script>
+</body>
+</html>
