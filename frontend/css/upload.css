@@ -22,7 +22,7 @@
   border-radius: var(--radius-lg);
   padding: 3.5rem 2rem;
   text-align: center;
-  background: rgba(15, 23, 42, 0.4);
+  background: var(--bg-surface-elevated);
   cursor: pointer;
   transition: all var(--transition-fast);
   position: relative;
@@ -30,8 +30,8 @@
 
 .dropzone:hover, .dropzone.dragover {
   border-color: var(--accent-blue);
-  background: rgba(59, 130, 246, 0.05);
-  box-shadow: 0 0 24px rgba(59, 130, 246, 0.15);
+  background: var(--color-info-bg);
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.2);
 }
 
 .dropzone-icon {

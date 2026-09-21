@@ -30,9 +30,9 @@
 }
 
 .role-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(59, 130, 246, 0.4);
-  box-shadow: var(--shadow-md);
+  transform: translateY(-5px);
+  border-color: var(--accent-blue);
+  box-shadow: 0 12px 28px -5px rgba(59, 130, 246, 0.2), 0 0 0 1px rgba(59, 130, 246, 0.35);
 }
 
 .role-icon-box {
@@ -46,6 +46,12 @@
   justify-content: center;
   font-size: 1.5rem;
   margin-bottom: 1.25rem;
+  transition: all var(--transition-fast);
+}
+
+.role-card:hover .role-icon-box {
+  transform: scale(1.08) rotate(3deg);
+  border-color: var(--accent-blue);
 }
 
 .role-title {
