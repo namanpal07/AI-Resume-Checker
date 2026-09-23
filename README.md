@@ -240,7 +240,3 @@ When demonstrating this project in interviews:
 2. **Real Binary Parsing**: Describe how `multer`, `pdf-parse`, and `mammoth` process uploaded binary buffers into clean text structures.
 3. **Resilient System Design**: Discuss how the application uses MongoDB for persistence while maintaining client-side fallbacks so users never see a crashed page.
 
----
-
-## 📄 License
-This project is open-source and available under the [ISC License](LICENSE).
