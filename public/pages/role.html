@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Select your target technology career role to evaluate your resume against industry benchmarks.">
+  <title>Job Roles | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/role.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link active">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Select Role</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Job Roles Directory</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <a href="upload.html" class="btn btn-outline btn-sm">Skip to Upload →</a>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <!-- STEPPER -->
+        <div class="stepper-nav">
+          <div class="stepper-step active">1. Select Job Role</div>
+          <div class="stepper-line"></div>
+          <div class="stepper-step">2. Upload Resume</div>
+          <div class="stepper-line"></div>
+          <div class="stepper-step">3. ATS Analysis Report</div>
+        </div>
+
+        <!-- HEADER & FILTER -->
+        <div class="roles-header">
+          <h2>Select Your Targeted Job Role</h2>
+          <p>Choose the position you are targeting. We will evaluate your resume against core skills, keywords, and ATS parameters calibrated for this role.</p>
+          
+          <div class="roles-search-bar">
+            <input type="text" id="roleSearchInput" class="form-input" placeholder="🔍 Search roles or technologies (e.g. React, Python, Cloud)...">
+          </div>
+        </div>
+
+        <!-- ROLES GRID (All 15 roles preserved) -->
+        <div class="roles-grid" id="rolesGrid">
+          
+          <!-- Card 1: Software Engineer -->
+          <div class="role-card" data-role-name="Software Engineer">
+            <div class="role-icon-box">💻</div>
+            <h3 class="role-title">Software Engineer</h3>
+            <p class="role-desc">Develop scalable software systems, design algorithms, and build foundational code solutions.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Data Structures</span>
+              <span class="skill-tag">Algorithms</span>
+              <span class="skill-tag">System Design</span>
+              <span class="skill-tag">Git</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Software Engineer">Select Role</button>
+          </div>
+
+          <!-- Card 2: Full Stack Developer -->
+          <div class="role-card" data-role-name="Full Stack Developer">
+            <div class="role-icon-box">🌐</div>
+            <h3 class="role-title">Full Stack Developer</h3>
+            <p class="role-desc">Build complete web applications spanning both client-side interfaces and server-side databases.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">HTML5/CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Databases</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Full Stack Developer">Select Role</button>
+          </div>
+
+          <!-- Card 3: Frontend Developer -->
+          <div class="role-card" data-role-name="Frontend Developer">
+            <div class="role-icon-box">🎨</div>
+            <h3 class="role-title">Frontend Developer</h3>
+            <p class="role-desc">Craft modern responsive web pages, integrate interactive UI logic, and optimize client experiences.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">HTML5/CSS3</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Tailwind CSS</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Frontend Developer">Select Role</button>
+          </div>
+
+          <!-- Card 4: Backend Developer -->
+          <div class="role-card" data-role-name="Backend Developer">
+            <div class="role-icon-box">⚙️</div>
+            <h3 class="role-title">Backend Developer</h3>
+            <p class="role-desc">Build secure APIs, model backend database structures, and handle system logic integrations.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Express</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">NoSQL APIs</span>
+              <span class="skill-tag">Docker</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Backend Developer">Select Role</button>
+          </div>
+
+          <!-- Card 5: Java Developer -->
+          <div class="role-card" data-role-name="Java Developer">
+            <div class="role-icon-box">☕</div>
+            <h3 class="role-title">Java Developer</h3>
+            <p class="role-desc">Program enterprise systems, backend APIs, and web services using the Java ecosystem.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Java</span>
+              <span class="skill-tag">Spring Boot</span>
+              <span class="skill-tag">Hibernate</span>
+              <span class="skill-tag">Maven</span>
+              <span class="skill-tag">SQL</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Java Developer">Select Role</button>
+          </div>
+
+          <!-- Card 6: Python Developer -->
+          <div class="role-card" data-role-name="Python Developer">
+            <div class="role-icon-box">🐍</div>
+            <h3 class="role-title">Python Developer</h3>
+            <p class="role-desc">Write automation scripts, develop web servers, and design data integrations using Python.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Django</span>
+              <span class="skill-tag">FastAPI</span>
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">Scripting</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Python Developer">Select Role</button>
+          </div>
+
+          <!-- Card 7: React Developer -->
+          <div class="role-card" data-role-name="React Developer">
+            <div class="role-icon-box">⚛️</div>
+            <h3 class="role-title">React Developer</h3>
+            <p class="role-desc">Architect component-driven web interfaces, manage state workflows, and build rich single-page applications.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">Redux</span>
+              <span class="skill-tag">Hooks</span>
+              <span class="skill-tag">Next.js</span>
+              <span class="skill-tag">TypeScript</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="React Developer">Select Role</button>
+          </div>
+
+          <!-- Card 8: Node.js Developer -->
+          <div class="role-card" data-role-name="Node.js Developer">
+            <div class="role-icon-box">🟢</div>
+            <h3 class="role-title">Node.js Developer</h3>
+            <p class="role-desc">Engineer asynchronous server backends, microservice infrastructures, and high-throughput data streams.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Express</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">REST APIs</span>
+              <span class="skill-tag">Async/Await</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Node.js Developer">Select Role</button>
+          </div>
+
+          <!-- Card 9: Mobile App Developer -->
+          <div class="role-card" data-role-name="Mobile App Developer">
+            <div class="role-icon-box">📱</div>
+            <h3 class="role-title">Mobile App Developer</h3>
+            <p class="role-desc">Design and build cross-platform or native smartphone applications with slick UI and offline caching.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">React Native</span>
+              <span class="skill-tag">Flutter</span>
+              <span class="skill-tag">Android</span>
+              <span class="skill-tag">iOS</span>
+              <span class="skill-tag">Dart</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Mobile App Developer">Select Role</button>
+          </div>
+
+          <!-- Card 10: Data Analyst -->
+          <div class="role-card" data-role-name="Data Analyst">
+            <div class="role-icon-box">📊</div>
+            <h3 class="role-title">Data Analyst</h3>
+            <p class="role-desc">Transform raw organizational metrics into executive charts, SQL queries, and actionable business insights.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">SQL</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Tableau</span>
+              <span class="skill-tag">Power BI</span>
+              <span class="skill-tag">Statistics</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Data Analyst">Select Role</button>
+          </div>
+
+          <!-- Card 11: Data Scientist -->
+          <div class="role-card" data-role-name="Data Scientist">
+            <div class="role-icon-box">🔬</div>
+            <h3 class="role-title">Data Scientist</h3>
+            <p class="role-desc">Build predictive models, execute hypothesis testing, and discover hidden trends across massive datasets.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">Machine Learning</span>
+              <span class="skill-tag">Statistics</span>
+              <span class="skill-tag">Pandas</span>
+              <span class="skill-tag">Scikit-Learn</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Data Scientist">Select Role</button>
+          </div>
+
+          <!-- Card 12: Machine Learning Engineer -->
+          <div class="role-card" data-role-name="Machine Learning Engineer">
+            <div class="role-icon-box">🤖</div>
+            <h3 class="role-title">Machine Learning Engineer</h3>
+            <p class="role-desc">Deploy machine learning pipelines, fine-tune neural nets, and integrate intelligent inference backends.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">TensorFlow</span>
+              <span class="skill-tag">PyTorch</span>
+              <span class="skill-tag">Deep Learning</span>
+              <span class="skill-tag">MLOps</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Machine Learning Engineer">Select Role</button>
+          </div>
+
+          <!-- Card 13: DevOps Engineer -->
+          <div class="role-card" data-role-name="DevOps Engineer">
+            <div class="role-icon-box">♾️</div>
+            <h3 class="role-title">DevOps Engineer</h3>
+            <p class="role-desc">Automate build pipelines, orchestrate Kubernetes clusters, and guarantee high-availability infrastructure.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Kubernetes</span>
+              <span class="skill-tag">CI/CD</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">AWS</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="DevOps Engineer">Select Role</button>
+          </div>
+
+          <!-- Card 14: Cloud Engineer -->
+          <div class="role-card" data-role-name="Cloud Engineer">
+            <div class="role-icon-box">☁️</div>
+            <h3 class="role-title">Cloud Engineer</h3>
+            <p class="role-desc">Architect cloud infrastructure, configure serverless systems, and manage enterprise security perimeters.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">AWS</span>
+              <span class="skill-tag">Azure</span>
+              <span class="skill-tag">GCP</span>
+              <span class="skill-tag">Terraform</span>
+              <span class="skill-tag">Networking</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Cloud Engineer">Select Role</button>
+          </div>
+
+          <!-- Card 15: Cybersecurity Analyst -->
+          <div class="role-card" data-role-name="Cybersecurity Analyst">
+            <div class="role-icon-box">🛡️</div>
+            <h3 class="role-title">Cybersecurity Analyst</h3>
+            <p class="role-desc">Guard company firewalls, run penetration tests, enforce compliance guidelines, and mitigate security threats.</p>
+            <div class="role-skills-list">
+              <span class="skill-tag">Network Security</span>
+              <span class="skill-tag">Vulnerability Assessment</span>
+              <span class="skill-tag">Linux</span>
+              <span class="skill-tag">SIEM</span>
+              <span class="skill-tag">Incident Handling</span>
+            </div>
+            <button class="btn btn-outline btn-select-role" data-role="Cybersecurity Analyst">Select Role</button>
+          </div>
+
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+  <script src="../js/role.js"></script>
+</body>
+</html>

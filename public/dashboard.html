@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Resume Coach Dashboard - Track your ATS resume score, job match, and recent analyses.">
+  <title>Dashboard | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="dashboard.html" class="sidebar-link active">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="pages/upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="pages/role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="pages/matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="pages/improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="pages/interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="pages/history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="pages/about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="pages/contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP HEADER -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Dashboard</h1>
+        </div>
+
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <a href="pages/upload.html" class="btn btn-primary btn-sm">+ Upload Resume</a>
+        </div>
+      </header>
+
+      <!-- PAGE CONTENT -->
+      <main class="page-content">
+        <!-- WELCOME BANNER -->
+        <div class="card card-glass" style="margin-bottom: 2rem; background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(139, 92, 246, 0.06) 100%);">
+          <h2 id="greetingText" style="font-size: 1.6rem; margin-bottom: 0.4rem;">Good afternoon 👋</h2>
+          <p style="font-size: 1rem; color: var(--text-secondary);">
+            Let's improve your resume and prepare for your next opportunity.
+          </p>
+        </div>
+
+        <!-- STATS CARDS GRID -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-bottom: 2rem;">
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Latest ATS Score</span>
+              <div class="stat-icon">📈</div>
+            </div>
+            <div class="stat-value" id="statAtsScore">--</div>
+            <div class="stat-subtext" id="statAtsSubtext">Run an analysis to measure</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Job Match Rate</span>
+              <div class="stat-icon">🎯</div>
+            </div>
+            <div class="stat-value" id="statJobMatch">--</div>
+            <div class="stat-subtext" id="statMatchSubtext">Against targeted position</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Skills Detected</span>
+              <div class="stat-icon">🛠️</div>
+            </div>
+            <div class="stat-value" id="statSkillsCount">--</div>
+            <div class="stat-subtext" id="statSkillsSubtext">Verified in resume</div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-header">
+              <span class="stat-label">Missing Skills</span>
+              <div class="stat-icon">⚠️</div>
+            </div>
+            <div class="stat-value" style="color: var(--color-warning);" id="statMissingCount">--</div>
+            <div class="stat-subtext">Keywords to incorporate</div>
+          </div>
+        </div>
+
+        <!-- QUICK ACTIONS BAR -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-header">
+            <h3 class="card-title">⚡ Quick Actions</h3>
+          </div>
+          <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+            <a href="pages/upload.html" class="btn btn-outline">
+              <span>📤</span> Analyze New Resume
+            </a>
+            <a href="pages/matcher.html" class="btn btn-outline">
+              <span>⚡</span> Compare Job Description
+            </a>
+            <a href="pages/improve.html" class="btn btn-outline">
+              <span>✨</span> Improve with AI
+            </a>
+            <a href="pages/interview.html" class="btn btn-outline">
+              <span>🎙️</span> Practice Interview Questions
+            </a>
+          </div>
+        </div>
+
+        <!-- RECENT ANALYSES TABLE -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">📁 Recent Resume Analyses</h3>
+            <a href="pages/history.html" class="btn btn-secondary btn-sm">View All History</a>
+          </div>
+
+          <div id="recentAnalysesContainer">
+            <!-- Populated via dashboard.js -->
+            <div style="padding: 2rem 0; text-align: center; color: var(--text-muted);">
+              Loading recent reports...
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

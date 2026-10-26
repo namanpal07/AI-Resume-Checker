@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resume parsing and matching score computation in progress.">
+  <title>Analyzing Resume | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/analysis.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link active">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Analyzing Resume</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div class="analysis-container">
+          <div class="analysis-card">
+            <div class="analysis-spinner"></div>
+            
+            <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Analyzing Your Resume</h2>
+            <p style="color: var(--text-secondary);">Evaluating ATS match statistics for: <strong id="analysis-role-name" style="color: var(--accent-blue);">Job Role</strong></p>
+
+            <!-- Progress Bar -->
+            <div class="progress-bar-wrapper">
+              <div class="progress-bar-outer">
+                <div class="progress-bar-inner" id="progressBar" style="width: 0%;"></div>
+              </div>
+              <div class="progress-text-row">
+                <span id="progressStatusText">Extracting resume text...</span>
+                <span id="progressPercentage" style="font-weight: 700; color: var(--accent-blue);">0%</span>
+              </div>
+            </div>
+
+            <!-- Checklist -->
+            <ul class="analysis-steps">
+              <li class="step-row" id="step-1">
+                <span class="step-status-icon loading"></span>
+                <span class="step-label">1. File Upload & Text Verification</span>
+              </li>
+              <li class="step-row" id="step-2">
+                <span class="step-status-icon pending"></span>
+                <span class="step-label">2. Extracting Resume Sections</span>
+              </li>
+              <li class="step-row" id="step-3">
+                <span class="step-status-icon pending"></span>
+                <span class="step-label">3. Detecting Technical Skills & Keywords</span>
+              </li>
+              <li class="step-row" id="step-4">
+                <span class="step-status-icon pending"></span>
+                <span class="step-label">4. Calculating Rule-Based ATS Score</span>
+              </li>
+              <li class="step-row" id="step-5">
+                <span class="step-status-icon pending"></span>
+                <span class="step-label">5. Persisting Analysis Report</span>
+              </li>
+            </ul>
+
+            <div id="errorMessageContainer" style="display: none; margin-top: 1.5rem; padding: 1rem; background: var(--color-danger-bg); border: 1px solid var(--color-danger); border-radius: var(--radius-md); color: var(--color-danger); text-align: left;">
+            </div>
+
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/analysis.js"></script>
+</body>
+</html>

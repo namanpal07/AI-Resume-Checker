@@ -2,6 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const fs = require('fs');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
@@ -10,7 +11,7 @@ const app = express();
 
 // 3. Define the Port
 const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/ai_resume_coach';
+const MONGODB_URI = process.env.MONGODB_URI || (process.env.VERCEL ? '' : 'mongodb://127.0.0.1:27017/ai_resume_coach');
 
 // 4. Setup Global Middleware
 app.use(cors());
@@ -20,18 +21,22 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // 5. Connect to MongoDB with graceful error resilience
 let isDbConnected = false;
 
-mongoose.connect(MONGODB_URI, {
-  serverSelectionTimeoutMS: 5000
-})
-.then(() => {
-  isDbConnected = true;
-  console.log(' Successfully connected to MongoDB database');
-})
-.catch((err) => {
-  isDbConnected = false;
-  console.warn(' MongoDB connection warning:', err.message);
-  console.warn(' The application will run with client/memory persistence fallback.');
-});
+if (MONGODB_URI && MONGODB_URI.trim().length > 0) {
+  mongoose.connect(MONGODB_URI, {
+    serverSelectionTimeoutMS: 4000
+  })
+  .then(() => {
+    isDbConnected = true;
+    console.log(' Successfully connected to MongoDB database');
+  })
+  .catch((err) => {
+    isDbConnected = false;
+    console.warn(' MongoDB connection warning:', err.message);
+    console.warn(' The application will run with client/memory persistence fallback.');
+  });
+} else {
+  console.log(' Running without active MongoDB connection (fallback persistence active).');
+}
 
 // 6. Import Route Modules
 const resumeRoutes = require('./routes/resumeRoutes');
@@ -65,9 +70,10 @@ app.get('/api/reports/:id', getReportById);
 app.delete('/api/reports/:id', deleteReport);
 app.use('/api/contact', contactRoutes);
 
-// 8. Serve Static Frontend Files
+// 8. Serve Static Frontend Files (supports both public/ and frontend/)
+const publicPath = path.join(__dirname, '../public');
 const frontendPath = path.join(__dirname, '../frontend');
-app.use(express.static(frontendPath));
+app.use(express.static(fs.existsSync(publicPath) ? publicPath : frontendPath));
 
 // 9. Global Error Handling Middleware
 app.use((err, req, res, next) => {

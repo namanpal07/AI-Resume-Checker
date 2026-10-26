@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Compare your resume against any pasted job description or role requirements to identify missing skills.">
+  <title>Job Description Matcher | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link active">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">Job Description Matcher</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <a href="upload.html" class="btn btn-primary btn-sm">Upload New Resume</a>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div class="card card-glass" style="margin-bottom: 2rem;">
+          <h2>Compare Resume With Target Job Description</h2>
+          <p>Paste a job posting below or pick a preset role. Our matcher parses the text, extracts requirements, and computes exact match percentages and skill gaps.</p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
+          <!-- INPUT CARD -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📋 Target Job Criteria</h3>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobRoleSelect">Predefined Role (Optional Preset)</label>
+              <select id="jobRoleSelect" class="form-select">
+                <option value="">-- Choose Role Preset --</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Full Stack Developer">Full Stack Developer</option>
+                <option value="Frontend Developer">Frontend Developer</option>
+                <option value="Backend Developer">Backend Developer</option>
+                <option value="Java Developer">Java Developer</option>
+                <option value="Python Developer">Python Developer</option>
+                <option value="React Developer">React Developer</option>
+                <option value="Node.js Developer">Node.js Developer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="DevOps Engineer">DevOps Engineer</option>
+                <option value="Cloud Engineer">Cloud Engineer</option>
+                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="jobDescriptionInput">Paste Full Job Description</label>
+              <textarea id="jobDescriptionInput" class="form-textarea" placeholder="Paste the job requirements, responsibilities, and qualifications from LinkedIn, Indeed, or company careers page..." style="min-height: 220px;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 1rem;">
+              <button id="btnRunMatch" class="btn btn-primary">
+                <span>⚡</span> Run Job Match
+              </button>
+              <button id="btnClearJd" class="btn btn-outline">Clear</button>
+            </div>
+          </div>
+
+          <!-- RESUME REFERENCE CARD -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">📄 Active Resume Source</h3>
+              <a href="upload.html" class="btn btn-outline btn-sm">Change</a>
+            </div>
+
+            <div id="activeResumeInfo" style="margin-bottom: 1.25rem;">
+              <p>Active File: <strong id="matcherFileName" style="color: var(--text-primary);">Resume.pdf</strong></p>
+              <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Extracted text is ready for comparison.</p>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Resume Text Preview</label>
+              <div id="resumeTextPreview" style="max-height: 200px; overflow-y: auto; background: var(--bg-surface-elevated); padding: 12px; border-radius: var(--radius-md); font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); white-space: pre-wrap; border: 1px solid var(--border-subtle);">
+                No resume text uploaded. Please upload a resume first.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RESULTS CONTAINER -->
+        <div id="matchResultsContainer" style="display: none;">
+          <div class="card" style="margin-bottom: 1.5rem;">
+            <div class="card-header">
+              <h3 class="card-title">🎯 Job Match Assessment</h3>
+              <span class="badge badge-success" id="matchBadge">82% Match</span>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+              <div class="stat-card" style="padding: 1rem;">
+                <span class="stat-label">Match Percentage</span>
+                <div class="stat-value" id="matchScoreVal" style="color: var(--accent-blue);">0%</div>
+              </div>
+              <div class="stat-card" style="padding: 1rem;">
+                <span class="stat-label">Matched Skills</span>
+                <div class="stat-value" id="matchedCountVal" style="color: var(--color-success);">0</div>
+              </div>
+              <div class="stat-card" style="padding: 1rem;">
+                <span class="stat-label">Missing Skills</span>
+                <div class="stat-value" id="missingCountVal" style="color: var(--color-danger);">0</div>
+              </div>
+            </div>
+
+            <!-- Matched Skills Chips -->
+            <div style="margin-bottom: 1.5rem;">
+              <h4 style="color: var(--color-success); margin-bottom: 0.5rem;">✓ Matched Technologies & Keywords</h4>
+              <div class="tags-cloud" id="matchedSkillsList"></div>
+            </div>
+
+            <!-- Missing Skills Chips -->
+            <div style="margin-bottom: 1.5rem;">
+              <h4 style="color: var(--color-danger); margin-bottom: 0.5rem;">⚠ Missing Technologies (Required by Job)</h4>
+              <div class="tags-cloud" id="missingSkillsList"></div>
+            </div>
+
+            <!-- Recommendations -->
+            <div>
+              <h4 style="margin-bottom: 0.5rem;">💡 Actionable Tailoring Suggestions</h4>
+              <ul class="check-list" id="matchRecommendations"></ul>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/matcher.js"></script>
+</body>
+</html>

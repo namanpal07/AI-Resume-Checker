@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Learn about the purpose, technologies, and future scope of the AI Resume Coach project.">
+  <title>About Project | AI Resume Coach</title>
+  
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/about.css">
+</head>
+<body>
+
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="../index.html" class="brand-logo">
+          <div class="logo-badge">I</div>
+          <span>AI Resume <span>Coach</span></span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Main Menu</span>
+        <a href="../dashboard.html" class="sidebar-link">
+          <span class="link-icon">📊</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="upload.html" class="sidebar-link">
+          <span class="link-icon">📤</span>
+          <span>Analyze Resume</span>
+        </a>
+        <a href="role.html" class="sidebar-link">
+          <span class="link-icon">🎯</span>
+          <span>Job Roles</span>
+        </a>
+        <a href="matcher.html" class="sidebar-link">
+          <span class="link-icon">⚡</span>
+          <span>Job Matcher</span>
+        </a>
+
+        <span class="nav-section-title">AI Tools</span>
+        <a href="improve.html" class="sidebar-link">
+          <span class="link-icon">✨</span>
+          <span>Resume Improvement</span>
+        </a>
+        <a href="interview.html" class="sidebar-link">
+          <span class="link-icon">🎙️</span>
+          <span>Interview Coach</span>
+        </a>
+        <a href="history.html" class="sidebar-link">
+          <span class="link-icon">📁</span>
+          <span>Reports / History</span>
+        </a>
+
+        <span class="nav-section-title">Support</span>
+        <a href="about.html" class="sidebar-link active">
+          <span class="link-icon">ℹ️</span>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="sidebar-link">
+          <span class="link-icon">✉️</span>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-profile-pill">
+          <div class="profile-avatar">N</div>
+          <div class="profile-info">
+            <span class="profile-name">Candidate Profile</span>
+            <span class="profile-role current-role-badge">Software Engineer</span>
+          </div>
+        </div>
+        <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
+          <span class="toggle-label">
+            <span class="theme-icon-indicator">🌙</span>
+            <span class="theme-text">Dark Mode</span>
+          </span>
+          <span class="theme-switch-pill"></span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-wrapper">
+      <header class="top-header">
+        <div class="header-left">
+          <button class="mobile-toggle" aria-label="Toggle Navigation">☰</button>
+          <h1 class="page-title">About The Project</h1>
+        </div>
+        <div class="header-right">
+          <button class="theme-toggle-nav" aria-label="Toggle Theme" title="Switch Theme">☀️</button>
+          <a href="upload.html" class="btn btn-primary btn-sm">Analyze Resume</a>
+        </div>
+      </header>
+
+      <main class="page-content">
+        <div class="about-card card-glass">
+          <h2>Project Purpose</h2>
+          <p>
+            AI Resume Coach is an enterprise-grade full-stack platform engineered to bridge the gap between job seekers and applicant tracking systems (ATS). By combining a transparent, rule-based ATS evaluation engine with Gemini LLM suggestions, job seekers receive honest, quantifiable, and zero-hallucination feedback to optimize their resumes and ace technical interviews.
+          </p>
+        </div>
+
+        <div class="about-card">
+          <h2>Architecture & Tech Stack</h2>
+          <div class="tech-stack-grid">
+            <div class="tech-stack-card">
+              <h4>🎨 Frontend System</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Pure HTML5, Vanilla JavaScript, and an enterprise CSS Dark Design System. Fast, accessible, and responsive across all device sizes.</p>
+            </div>
+
+            <div class="tech-stack-card">
+              <h4>⚙️ Backend Architecture</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Node.js and Express.js REST API providing secure file uploads via Multer, text extraction engines, and algorithmic scoring services.</p>
+            </div>
+
+            <div class="tech-stack-card">
+              <h4>📄 Document Parsers</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Server-side text extraction using <code>pdf-parse</code> and <code>mammoth</code>, supporting standard PDF and DOCX resume formats.</p>
+            </div>
+
+            <div class="tech-stack-card">
+              <h4>🗄️ Database Layer</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">MongoDB with Mongoose ODM schemas for persistent analyses, evaluation reports, interview sessions, and contact inquiries.</p>
+            </div>
+
+            <div class="tech-stack-card">
+              <h4>🤖 Google Gemini AI</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Integrated with the Google Gen AI SDK for bullet point enhancement, custom interview question generation, and answer rubric evaluations.</p>
+            </div>
+
+            <div class="tech-stack-card">
+              <h4>📊 Rule-Based ATS Engine</h4>
+              <p style="font-size: 0.88rem; color: var(--text-secondary);">Configurable weights for keyword matching (30%), skills repertoire (25%), sections (15%), formatting (10%), experience (10%), and education (10%).</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-card">
+          <h2>Responsible AI & Data Privacy</h2>
+          <p style="color: var(--text-secondary); line-height: 1.6;">
+            We believe in honest career preparation. Our ATS scoring algorithm does not hallucinate false qualifications or guarantee job offers. Scores are derived strictly from verifiable text extracted from your resume against targeted job descriptions.
+          </p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
