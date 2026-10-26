@@ -1,4 +1,5 @@
-// 1. Import necessary packages
+// 1. Initialize serverless polyfills & import packages
+require('./services/polyfills');
 const express = require('express');
 const cors = require('cors');
 const path = require('path');

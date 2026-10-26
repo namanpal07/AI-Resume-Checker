@@ -1,3 +1,4 @@
+require('./polyfills');
 const fs = require('fs');
 const path = require('path');
 const { PDFParse } = require('pdf-parse');
