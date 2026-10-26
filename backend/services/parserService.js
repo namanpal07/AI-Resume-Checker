@@ -18,15 +18,24 @@ const SECTION_PATTERNS = {
 };
 
 /**
- * Extracts raw text from uploaded PDF or DOCX file
+ * Extracts raw text from uploaded PDF or DOCX file (supports file paths or in-memory Buffers)
  */
-async function extractTextFromFile(filePath, mimeType) {
-  if (!fs.existsSync(filePath)) {
-    throw new Error('File not found on server');
-  }
+async function extractTextFromFile(filePathOrBuffer, mimeType = '', originalName = '') {
+  let buffer;
+  let ext = '';
 
-  const ext = path.extname(filePath).toLowerCase();
-  const buffer = fs.readFileSync(filePath);
+  if (Buffer.isBuffer(filePathOrBuffer)) {
+    buffer = filePathOrBuffer;
+    ext = originalName ? path.extname(originalName).toLowerCase() : '';
+  } else if (typeof filePathOrBuffer === 'string') {
+    if (!fs.existsSync(filePathOrBuffer)) {
+      throw new Error('File not found on server');
+    }
+    ext = path.extname(filePathOrBuffer).toLowerCase();
+    buffer = fs.readFileSync(filePathOrBuffer);
+  } else {
+    throw new Error('Unsupported document input');
+  }
 
   let rawText = '';
 

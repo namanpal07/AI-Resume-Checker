@@ -2,8 +2,14 @@
  * AI Resume Coach - Centralized API Service & UI Utilities
  */
 
-// Dynamically use current origin when served by Express or fallback to localhost:5000
-const API_BASE_URL = window.location.origin.includes('5000') || window.location.protocol.startsWith('http')
+// Dynamically detect API URL:
+// - Deployed on the web (e.g. Vercel, production domain): uses current window.location.origin
+// - Served locally by Express backend (port 5000): uses current origin
+// - Local dev tools (e.g. Live Server on port 5500) or file://: connects to http://localhost:5000
+const isFile = window.location.protocol === 'file:';
+const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const isBackendServedLocally = isLocalhost && (window.location.port === '5000' || window.location.origin.includes(':5000'));
+const API_BASE_URL = (!isFile && (!isLocalhost || isBackendServedLocally))
   ? window.location.origin
   : 'http://localhost:5000';
 

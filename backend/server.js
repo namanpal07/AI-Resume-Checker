@@ -78,13 +78,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 10. Start the Express Server
-app.listen(PORT, () => {
-  console.log(`=========================================`);
-  console.log(` AI Resume Checker & Interview Coach Server`);
-  console.log(` Running on port: ${PORT}`);
-  console.log(` Access Frontend: http://localhost:${PORT}/`);
-  console.log(` API Health Check: http://localhost:${PORT}/api/health`);
-  console.log(` Database Status: ${isDbConnected ? 'Connected' : 'Connecting...'}`);
-  console.log(`=========================================`);
-});
+// 10. Start the Express Server (only when run directly or locally, not in Vercel serverless environment)
+if (require.main === module || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`=========================================`);
+    console.log(` AI Resume Checker & Interview Coach Server`);
+    console.log(` Running on port: ${PORT}`);
+    console.log(` Access Frontend: http://localhost:${PORT}/`);
+    console.log(` API Health Check: http://localhost:${PORT}/api/health`);
+    console.log(` Database Status: ${isDbConnected ? 'Connected' : 'Connecting...'}`);
+    console.log(`=========================================`);
+  });
+}
+
+module.exports = app;

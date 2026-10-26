@@ -6,21 +6,8 @@ const { extractTextFromFile } = require('../services/parserService');
 const { analyzeResume } = require('../services/atsEngine');
 const { matchResumeWithJob } = require('../services/jobMatchService');
 
-// Configure Multer Storage for uploaded resumes
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const uploadDir = path.join(__dirname, '../uploads');
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir, { recursive: true });
-    }
-    cb(null, uploadDir);
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname);
-    cb(null, 'resume-' + uniqueSuffix + ext);
-  }
-});
+// Configure Multer in-memory storage (serverless and Vercel compatible, zero disk writes)
+const storage = multer.memoryStorage();
 
 // File filter for PDF and DOCX only
 const fileFilter = (req, file, cb) => {
@@ -60,8 +47,8 @@ function uploadResume(req, res) {
     }
 
     try {
-      const filePath = req.file.path;
-      const rawText = await extractTextFromFile(filePath, req.file.mimetype);
+      const fileData = req.file.buffer || req.file.path;
+      const rawText = await extractTextFromFile(fileData, req.file.mimetype, req.file.originalname);
       const targetRole = req.body.targetRole || 'Software Engineer';
 
       return res.status(200).json({
@@ -69,7 +56,7 @@ function uploadResume(req, res) {
         message: 'Resume parsed successfully',
         data: {
           fileName: req.file.originalname,
-          storedFileName: req.file.filename,
+          storedFileName: req.file.filename || req.file.originalname,
           fileSize: `${(req.file.size / 1024).toFixed(1)} KB`,
           fileType: req.file.mimetype,
           targetRole: targetRole,
