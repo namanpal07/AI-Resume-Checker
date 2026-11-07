@@ -5,6 +5,10 @@ const Analysis = require('../models/Analysis');
 const { extractTextFromFile } = require('../services/parserService');
 const { analyzeResume } = require('../services/atsEngine');
 const { matchResumeWithJob } = require('../services/jobMatchService');
+const {
+  analyzeResumeWithGemini,
+  matchJobDescriptionWithGemini
+} = require('../services/geminiService');
 
 // Configure Multer in-memory storage (serverless and Vercel compatible, zero disk writes)
 const storage = multer.memoryStorage();
@@ -75,7 +79,8 @@ function uploadResume(req, res) {
 }
 
 /**
- * Run rule-based ATS analysis and persist report in MongoDB
+ * Run ATS analysis and persist report in MongoDB
+ * Supports Live Gemini AI Mode and Heuristic Template Mode
  */
 async function analyzeResumeData(req, res) {
   try {
@@ -89,7 +94,7 @@ async function analyzeResumeData(req, res) {
     }
 
     const roleName = targetRole || 'Software Engineer';
-    const analysisResult = analyzeResume(rawText, roleName, jobDescription);
+    const analysisResult = await analyzeResumeWithGemini(rawText, roleName, jobDescription);
 
     let savedReport = null;
 
@@ -111,7 +116,10 @@ async function analyzeResumeData(req, res) {
         scoreBreakdown: analysisResult.scoreBreakdown,
         strengths: analysisResult.strengths,
         weaknesses: analysisResult.weaknesses,
-        suggestions: analysisResult.suggestions
+        suggestions: analysisResult.suggestions,
+        aiSummary: analysisResult.aiSummary || '',
+        analysisMode: analysisResult.analysisMode || 'heuristic',
+        statusBanner: analysisResult.statusBanner || ''
       });
 
       savedReport = await newAnalysis.save();
@@ -139,6 +147,7 @@ async function analyzeResumeData(req, res) {
 
 /**
  * Compare resume against custom job description
+ * Supports Live Gemini AI Mode and Heuristic Template Mode
  */
 async function compareJobDescription(req, res) {
   try {
@@ -151,10 +160,7 @@ async function compareJobDescription(req, res) {
       });
     }
 
-    const matchResult = matchResumeWithJob(resumeText, {
-      jobDescription: jobDescription || '',
-      roleName: roleName || ''
-    });
+    const matchResult = await matchJobDescriptionWithGemini(resumeText, jobDescription, roleName);
 
     // Optionally update analysis document with match score
     if (analysisId) {
@@ -187,7 +193,7 @@ async function compareJobDescription(req, res) {
 async function getReports(req, res) {
   try {
     const reports = await Analysis.find()
-      .select('fileName targetRole atsScore jobMatchScore createdAt')
+      .select('fileName targetRole atsScore jobMatchScore analysisMode statusBanner createdAt')
       .sort({ createdAt: -1 })
       .limit(20);
 

@@ -76,6 +76,15 @@ const AnalysisSchema = new mongoose.Schema({
   jobMatchScore: {
     type: Number,
     default: null
+  },
+  analysisMode: {
+    type: String,
+    enum: ['gemini', 'heuristic'],
+    default: 'heuristic'
+  },
+  statusBanner: {
+    type: String,
+    default: ''
   }
 }, {
   timestamps: true

@@ -111,21 +111,41 @@
             <div class="form-group">
               <label class="form-label" for="jobRoleSelect">Predefined Role (Optional Preset)</label>
               <select id="jobRoleSelect" class="form-select">
-                <option value="">-- Choose Role Preset --</option>
-                <option value="Software Engineer">Software Engineer</option>
-                <option value="Full Stack Developer">Full Stack Developer</option>
-                <option value="Frontend Developer">Frontend Developer</option>
-                <option value="Backend Developer">Backend Developer</option>
-                <option value="Java Developer">Java Developer</option>
-                <option value="Python Developer">Python Developer</option>
-                <option value="React Developer">React Developer</option>
-                <option value="Node.js Developer">Node.js Developer</option>
-                <option value="Data Analyst">Data Analyst</option>
-                <option value="Data Scientist">Data Scientist</option>
-                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
-                <option value="DevOps Engineer">DevOps Engineer</option>
-                <option value="Cloud Engineer">Cloud Engineer</option>
-                <option value="Cybersecurity Analyst">Cybersecurity Analyst</option>
+                <option value="">-- Choose Role Preset (20 Supported Roles) --</option>
+                <optgroup label="1. Software Development">
+                  <option value="Software Engineer">Software Engineer</option>
+                  <option value="Full Stack Developer">Full Stack Developer</option>
+                  <option value="Frontend Developer">Frontend Developer</option>
+                  <option value="Backend Developer">Backend Developer</option>
+                  <option value="Java Developer">Java Developer</option>
+                  <option value="Python Developer">Python Developer</option>
+                </optgroup>
+                <optgroup label="2. Mobile Development">
+                  <option value="iOS Developer (Swift / SwiftUI)">iOS Developer (Swift / SwiftUI)</option>
+                  <option value="Android Developer">Android Developer</option>
+                  <option value="Flutter Developer">Flutter Developer</option>
+                </optgroup>
+                <optgroup label="3. AI & Machine Learning">
+                  <option value="AI Engineer">AI Engineer</option>
+                  <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                  <option value="Generative AI Engineer">Generative AI Engineer</option>
+                </optgroup>
+                <optgroup label="4. Data & Analytics">
+                  <option value="Data Analyst">Data Analyst</option>
+                  <option value="Data Scientist">Data Scientist</option>
+                  <option value="Data Engineer">Data Engineer</option>
+                </optgroup>
+                <optgroup label="5. Cloud & DevOps">
+                  <option value="DevOps Engineer">DevOps Engineer</option>
+                  <option value="Cloud Engineer">Cloud Engineer</option>
+                </optgroup>
+                <optgroup label="6. Testing & Quality Assurance">
+                  <option value="QA Engineer">QA Engineer</option>
+                  <option value="Automation Test Engineer">Automation Test Engineer</option>
+                </optgroup>
+                <optgroup label="7. Design">
+                  <option value="UI/UX Designer">UI/UX Designer</option>
+                </optgroup>
               </select>
             </div>
 
@@ -165,6 +185,7 @@
 
         <!-- RESULTS CONTAINER -->
         <div id="matchResultsContainer" style="display: none;">
+          <div id="matcherModeBanner" style="margin-bottom: 1.5rem;"></div>
           <div class="card" style="margin-bottom: 1.5rem;">
             <div class="card-header">
               <h3 class="card-title">🎯 Job Match Assessment</h3>
@@ -174,7 +195,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
               <div class="stat-card" style="padding: 1rem;">
                 <span class="stat-label">Match Percentage</span>
-                <div class="stat-value" id="matchScoreVal" style="color: var(--accent-blue);">0%</div>
+                <div class="stat-value" id="matchScoreVal" style="color: var(--color-primary);">0%</div>
               </div>
               <div class="stat-card" style="padding: 1rem;">
                 <span class="stat-label">Matched Skills</span>

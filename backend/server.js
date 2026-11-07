@@ -5,6 +5,11 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
+// Load environment variables (supports backend/.env, root .env, and system environment)
+const backendEnvPath = path.join(__dirname, '.env');
+const rootEnvPath = path.join(__dirname, '../.env');
+if (fs.existsSync(backendEnvPath)) require('dotenv').config({ path: backendEnvPath });
+if (fs.existsSync(rootEnvPath)) require('dotenv').config({ path: rootEnvPath });
 require('dotenv').config();
 
 // 2. Initialize the Express application
@@ -45,15 +50,19 @@ const aiRoutes = require('./routes/aiRoutes');
 const contactRoutes = require('./routes/contactRoutes');
 const { analyzeResumeData, compareJobDescription, getReports, getReportById, deleteReport } = require('./controllers/resumeController');
 const { getInterviewQuestions, evaluateAnswer } = require('./controllers/aiController');
+const { getAiStatus } = require('./services/geminiService');
 
 // 7. Mount API Endpoints
 // Health Check Endpoint
 app.get('/api/health', (req, res) => {
+  const aiStatus = getAiStatus();
   res.status(200).json({
     success: true,
     message: "AI Resume Checker backend is running",
     database: isDbConnected ? "Connected" : "Disconnected",
-    aiAvailable: !!(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY.trim().length > 0)
+    aiAvailable: aiStatus.configured,
+    analysisMode: aiStatus.mode,
+    statusBanner: aiStatus.statusBanner
   });
 });
 

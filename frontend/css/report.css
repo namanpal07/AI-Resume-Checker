@@ -1,4 +1,4 @@
-/* ATS Report Page Dark SaaS Styles */
+/* ATS Report Page - Professional Blue Identity */
 
 .report-header {
   display: flex;
@@ -6,14 +6,14 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .report-grid {
   display: grid;
   grid-template-columns: 1fr 1.6fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .score-panel {
@@ -22,12 +22,12 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 2.5rem 1.5rem;
+  padding: 2.25rem 1.5rem;
 }
 
 .score-caption {
-  margin-top: 1.25rem;
-  font-size: 0.92rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
@@ -40,7 +40,7 @@
 .metrics-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  gap: 1.15rem;
 }
 
 .metric-item {
@@ -52,7 +52,7 @@
 .metric-meta {
   display: flex;
   justify-content: space-between;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
 }
 
 .metric-label {
@@ -69,8 +69,8 @@
 .two-col-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
 .check-list, .warning-list {
@@ -84,7 +84,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--text-primary);
 }
 
@@ -98,13 +98,15 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
 }
 
 .warning-list li::before {
-  content: '⚠';
+  content: '•';
   color: var(--color-warning);
+  font-size: 1.2rem;
+  line-height: 1;
 }
 
 /* Sections Detection */
@@ -119,21 +121,21 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.82rem;
-  padding: 6px 12px;
+  font-size: 0.8rem;
+  padding: 5px 11px;
   border-radius: var(--radius-sm);
 }
 
 .section-pill.detected {
-  background: var(--color-success-bg);
+  background-color: var(--color-success-bg);
   color: var(--color-success);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(77, 150, 104, 0.3);
 }
 
 .section-pill.missing {
-  background: var(--color-danger-bg);
+  background-color: var(--color-danger-bg);
   color: var(--color-danger);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  border: 1px solid rgba(207, 98, 98, 0.3);
 }
 
 /* Keywords Cloud */
@@ -147,33 +149,34 @@
 /* Action Cards */
 .actions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
+  margin-top: 0.85rem;
 }
 
 .action-card {
-  background: var(--bg-surface-elevated);
+  background-color: var(--bg-surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 1.25rem;
+  padding: 1.15rem;
   display: flex;
   gap: 12px;
 }
 
 .action-num {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
   font-weight: 800;
-  color: var(--accent-blue);
+  color: var(--color-primary);
   line-height: 1;
+  font-family: var(--font-mono);
 }
 
 .report-bottom-ctas {
   display: flex;
-  gap: 1rem;
+  gap: 0.75rem;
   justify-content: flex-end;
   flex-wrap: wrap;
-  margin-top: 2rem;
+  margin-top: 1.75rem;
 }
 
 @media (max-width: 992px) {

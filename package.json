@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "nodemon backend/server.js",
-    "build": "node -e \"console.log('Build complete')\"",
+    "build": "node scripts/sync-public.js",
     "test": "node backend/test-suite.js",
     "install:backend": "npm --prefix backend install",
     "install:all": "npm --prefix backend install"
@@ -28,7 +28,7 @@
     "mammoth": "^1.12.3",
     "mongoose": "^9.10.1",
     "multer": "^2.4.0",
-    "pdf-parse": "^2.4.5"
+    "pdf-parse": "1.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4"

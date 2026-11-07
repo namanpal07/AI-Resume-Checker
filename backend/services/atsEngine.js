@@ -17,13 +17,17 @@ const TECH_SKILLS_DICTIONARY = [
   "HTML", "HTML5", "CSS", "CSS3", "Sass", "Tailwind CSS", "Bootstrap", "Material-UI",
   "React", "React.js", "Angular", "Vue.js", "Next.js", "Nuxt.js", "Svelte", "Redux", "Zustand",
   "Node.js", "Express", "Express.js", "NestJS", "Django", "FastAPI", "Flask", "Spring Boot", "Spring", "Hibernate", "ASP.NET",
-  "SQL", "MySQL", "PostgreSQL", "MongoDB", "Redis", "SQLite", "Oracle", "JDBC", "Prisma", "Mongoose",
+  "SwiftUI", "UIKit", "Xcode", "Core Data", "Combine", "CocoaPods", "Android SDK", "Jetpack Compose", "Coroutines", "Flutter", "Bloc", "Provider", "Riverpod", "Room",
+  "SQL", "MySQL", "PostgreSQL", "MongoDB", "Redis", "SQLite", "Oracle", "JDBC", "Prisma", "Mongoose", "Cassandra",
   "Git", "GitHub", "GitLab", "Bitbucket", "Docker", "Kubernetes", "AWS", "Azure", "GCP", "Linux", "Unix", "Bash",
-  "CI/CD", "Jenkins", "GitHub Actions", "Terraform", "Ansible", "Nginx", "Apache",
-  "REST", "RESTful APIs", "REST APIs", "GraphQL", "gRPC", "WebSockets", "Socket.io", "JSON", "JWT", "OAuth",
-  "Jest", "Mocha", "Cypress", "PyTest", "JUnit", "Selenium",
+  "CI/CD", "Jenkins", "GitHub Actions", "Terraform", "Ansible", "Nginx", "Apache", "Helm", "Prometheus", "Grafana",
+  "REST", "RESTful APIs", "REST APIs", "GraphQL", "gRPC", "WebSockets", "Socket.io", "JSON", "JWT", "OAuth", "Microservices",
+  "Jest", "Mocha", "Cypress", "PyTest", "JUnit", "Selenium", "Playwright", "TestNG", "Cucumber", "Postman", "JIRA", "QA", "Manual Testing", "Automation Testing", "Test Cases",
   "Machine Learning", "Deep Learning", "Data Science", "Artificial Intelligence", "TensorFlow", "PyTorch", "Scikit-Learn",
-  "Pandas", "NumPy", "OpenCV", "NLP", "Tableau", "Power BI", "Data Structures", "Algorithms", "System Design", "OOP"
+  "Generative AI", "LLMs", "Prompt Engineering", "RAG", "LangChain", "LlamaIndex", "Hugging Face", "Vector Databases", "ChromaDB", "Pinecone", "Fine-Tuning",
+  "Pandas", "NumPy", "OpenCV", "NLP", "Tableau", "Power BI", "Excel", "Apache Spark", "Spark", "Airflow", "Hadoop", "Kafka", "Snowflake", "dbt", "BigQuery", "Databricks", "ETL", "Data Pipelines",
+  "UI/UX", "UI/UX Design", "Figma", "Adobe XD", "Wireframing", "Prototyping", "User Research", "Design Systems", "Usability Testing", "Information Architecture", "Interaction Design", "Visual Design", "Design Thinking", "Photoshop", "Illustrator",
+  "Data Structures", "Algorithms", "System Design", "OOP", "Clean Code"
 ];
 
 // Strong Action Verbs indicative of high-impact resumes

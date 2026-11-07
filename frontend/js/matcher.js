@@ -84,6 +84,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!resultsContainer) return;
     resultsContainer.style.display = 'block';
 
+    const modeBannerEl = document.getElementById('matcherModeBanner');
+    if (modeBannerEl) {
+      const mode = data.analysisMode || (data.isAiConfigured ? 'gemini' : 'heuristic');
+      const isError = !!data.apiErrorType;
+
+      if (mode === 'gemini') {
+        modeBannerEl.innerHTML = `
+          <div class="ai-status-banner ai-mode-gemini" style="background: rgba(36, 91, 150, 0.08); border: 1px solid var(--border-subtle); padding: 12px 18px; border-radius: var(--radius-md); font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.15rem;">✨</span>
+              <span style="color: var(--text-primary); font-weight: 500;">AI Analysis Active – Your resume is being evaluated using Gemini AI.</span>
+            </div>
+            <span class="badge badge-accent" style="background: var(--color-primary); color: #fff;">Gemini AI Mode</span>
+          </div>
+        `;
+      } else if (isError) {
+        modeBannerEl.innerHTML = `
+          <div class="ai-status-banner ai-mode-error" style="background: rgba(207, 98, 98, 0.08); border: 1px solid rgba(207, 98, 98, 0.3); padding: 12px 18px; border-radius: var(--radius-md); font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.15rem;">⚠️</span>
+              <span style="color: var(--color-danger); font-weight: 500;">${data.statusBanner || 'Configuration Error: Switched to Basic Analysis Mode.'}</span>
+            </div>
+            <span class="badge badge-danger">Configuration Error</span>
+          </div>
+        `;
+      } else {
+        modeBannerEl.innerHTML = `
+          <div class="ai-status-banner ai-mode-heuristic" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); padding: 12px 18px; border-radius: var(--radius-md); font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.15rem;">📋</span>
+              <span style="color: var(--text-secondary); font-weight: 500;">Basic Analysis Mode – AI-powered recommendations are currently unavailable.</span>
+            </div>
+            <span class="badge badge-outline" style="border: 1px solid var(--border-subtle); color: var(--text-muted);">Template Mode</span>
+          </div>
+        `;
+      }
+    }
+
     if (matchScoreVal) matchScoreVal.textContent = `${data.matchScore}%`;
     if (matchedCountVal) matchedCountVal.textContent = data.matchedCount;
     if (missingCountVal) missingCountVal.textContent = data.missingCount;

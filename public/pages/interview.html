@@ -101,7 +101,7 @@
           <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
             <div>
               <h2>Personalized Technical & Behavioral Interview Simulation</h2>
-              <p>Questions are synthesized specifically from the projects, skills, and background in your resume for <strong id="interviewTargetRoleDisplay" style="color: var(--accent-blue);">Software Engineer</strong>.</p>
+              <p>Questions are synthesized specifically from the projects, skills, and background in your resume for <strong id="interviewTargetRoleDisplay" style="color: var(--color-primary);">Software Engineer</strong>.</p>
             </div>
             <span class="badge badge-accent" id="questionsCountBadge">6 Questions Generated</span>
           </div>
@@ -124,7 +124,7 @@
         </div>
 
         <!-- INTERACTIVE PRACTICE MODAL / CARD -->
-        <div id="practiceSection" class="card" style="display: none; border: 2px solid var(--accent-blue); margin-bottom: 2rem;">
+        <div id="practiceSection" class="card" style="display: none; border: 1px solid var(--color-primary); margin-bottom: 2rem;">
           <div class="card-header">
             <h3 class="card-title">🎙️ Mock Interview Response Arena</h3>
             <button class="btn btn-outline btn-sm" id="btnClosePractice">✕ Close</button>
@@ -160,7 +160,7 @@
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
               <div class="stat-card" style="padding: 1rem; text-align: center;">
                 <span class="stat-label">Overall Score</span>
-                <div class="stat-value" id="evalOverallScore" style="color: var(--accent-blue);">85%</div>
+                <div class="stat-value" id="evalOverallScore" style="color: var(--color-primary);">85%</div>
               </div>
               <div class="stat-card" style="padding: 1rem; text-align: center;">
                 <span class="stat-label">Technical Accuracy</span>
@@ -178,7 +178,7 @@
 
             <!-- Feedback Paragraph -->
             <div style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; margin-bottom: 1.25rem;">
-              <h5 style="margin-bottom: 6px; color: var(--accent-blue);">Coach Critique</h5>
+              <h5 style="margin-bottom: 6px; color: var(--color-primary);">Coach Critique</h5>
               <p id="evalFeedbackText" style="font-size: 0.92rem; line-height: 1.6; color: var(--text-primary);"></p>
             </div>
 
@@ -194,8 +194,8 @@
             </div>
 
             <!-- Model Answer -->
-            <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: var(--radius-md); padding: 1.25rem;">
-              <h5 style="color: var(--accent-blue); margin-bottom: 6px;">💡 Suggested Ideal Answer Structure</h5>
+            <div style="background: var(--color-info-bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+              <h5 style="color: var(--color-primary); margin-bottom: 6px;">💡 Suggested Ideal Answer Structure</h5>
               <p id="evalModelAnswer" style="font-size: 0.9rem; line-height: 1.6; color: var(--text-secondary);"></p>
             </div>
           </div>

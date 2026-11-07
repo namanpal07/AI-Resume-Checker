@@ -6,12 +6,25 @@
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
+const backendEnvPath = path.join(__dirname, '.env');
+const rootEnvPath = path.join(__dirname, '../.env');
+if (fs.existsSync(backendEnvPath)) require('dotenv').config({ path: backendEnvPath });
+if (fs.existsSync(rootEnvPath)) require('dotenv').config({ path: rootEnvPath });
 require('dotenv').config();
 
 const { extractTextFromFile } = require('./services/parserService');
 const { analyzeResume } = require('./services/atsEngine');
 const { matchResumeWithJob } = require('./services/jobMatchService');
-const { generateResumeImprovements, generateInterviewQuestions, evaluateInterviewAnswer } = require('./services/geminiService');
+const { ROLE_DATABASE, getRoleConfig } = require('./services/roleData');
+const {
+  getAiStatus,
+  classifyApiError,
+  analyzeResumeWithGemini,
+  matchJobDescriptionWithGemini,
+  generateResumeImprovements,
+  generateInterviewQuestions,
+  evaluateInterviewAnswer
+} = require('./services/geminiService');
 const Analysis = require('./models/Analysis');
 const Contact = require('./models/Contact');
 const Interview = require('./models/Interview');
@@ -46,7 +59,9 @@ async function runTests() {
 
   // TEST 2: Real PDF Resume Parsing
   console.log('\nTEST 2: Real Document Parsing with PDF...');
-  const samplePdfPath = 'C:\\Users\\naman\\OneDrive\\Documents\\fullstackresume\\resume_for_fullstack_role.pdf';
+  const samplePdfPath = fs.existsSync('C:\\Users\\naman\\OneDrive\\Documents\\fullstackresume\\resume_for_fullstack_role.pdf')
+    ? 'C:\\Users\\naman\\OneDrive\\Documents\\fullstackresume\\resume_for_fullstack_role.pdf'
+    : path.join(__dirname, 'uploads/resume-1789995321576-396955140.pdf');
   let extractedText = '';
 
   if (fs.existsSync(samplePdfPath)) {
@@ -80,8 +95,86 @@ async function runTests() {
     assert(true, 'Synthesized testing resume text');
   }
 
-  // TEST 3: Rule-based ATS Engine Calculation
-  console.log('\nTEST 3: Rule-Based ATS Scoring Engine...');
+  // TEST 2B: Real Figma / Type 3 Vector PDF Extraction (Mayank-Resume-2026.pdf)
+  console.log('\nTEST 2B: Figma Type 3 Vector PDF Extraction (Mayank-Resume-2026.pdf)...');
+  const mayankPdfPath = path.join(__dirname, 'uploads/Mayank-Resume-2026.pdf');
+  if (fs.existsSync(mayankPdfPath)) {
+    try {
+      const mayankText = await extractTextFromFile(mayankPdfPath, 'application/pdf');
+      assert(mayankText.length > 2000, `Extracted ${mayankText.length} characters from Figma Type 3 vector PDF`);
+      assert(mayankText.includes('Mayank Pal'), 'Extracted real candidate name (Mayank Pal)');
+      assert(mayankText.includes('UI/UX Designer'), 'Extracted target role (UI/UX Designer)');
+      assert(mayankText.includes('Mayankoct2004@gmail.com'), 'Extracted contact email (Mayankoct2004@gmail.com)');
+      assert(mayankText.includes('Figma'), 'Extracted core skill (Figma)');
+      assert(mayankText.includes('Auto Layout'), 'Extracted design skill (Auto Layout)');
+      assert(mayankText.includes('JavaScript'), 'Extracted web skill (JavaScript)');
+
+      // Also verify ATS scoring for UI/UX Designer
+      const mayankAnalysis = await analyzeResume(mayankText, 'UI/UX Designer', 'Mayank-Resume-2026.pdf');
+      assert(mayankAnalysis.atsScore >= 50, `ATS Evaluation scored ${mayankAnalysis.atsScore}% for UI/UX Designer`);
+      assert(mayankAnalysis.detectedSkills.includes('Figma'), 'ATS detected Figma skill from extracted text');
+      assert(mayankAnalysis.metadata.candidateName === 'Mayank Pal', 'Metadata extracted candidate name "Mayank Pal"');
+    } catch (parseErr) {
+      assert(false, `Figma PDF parsing failed: ${parseErr.message}`);
+    }
+  }
+
+  // TEST 3: Exactly 20 Roles Verification
+  console.log('\nTEST 3: Exactly 20 Roles in 7 Categories Verification...');
+  const EXPECTED_20_ROLES = [
+    // 1. Software Development
+    "Software Engineer",
+    "Full Stack Developer",
+    "Frontend Developer",
+    "Backend Developer",
+    "Java Developer",
+    "Python Developer",
+    // 2. Mobile Development
+    "iOS Developer (Swift / SwiftUI)",
+    "Android Developer",
+    "Flutter Developer",
+    // 3. AI & Machine Learning
+    "AI Engineer",
+    "Machine Learning Engineer",
+    "Generative AI Engineer",
+    // 4. Data & Analytics
+    "Data Analyst",
+    "Data Scientist",
+    "Data Engineer",
+    // 5. Cloud & DevOps
+    "DevOps Engineer",
+    "Cloud Engineer",
+    // 6. Testing & Quality Assurance
+    "QA Engineer",
+    "Automation Test Engineer",
+    // 7. Design
+    "UI/UX Designer"
+  ];
+
+  assert(Object.keys(ROLE_DATABASE).length === 20, `Database contains exactly 20 roles (found ${Object.keys(ROLE_DATABASE).length})`);
+
+  let allRolesValid = true;
+  for (const role of EXPECTED_20_ROLES) {
+    const config = getRoleConfig(role);
+    if (!config || config.title !== role) {
+      allRolesValid = false;
+      console.error(`  ✕ Role missing or mismatched: ${role}`);
+    }
+  }
+  assert(allRolesValid, 'All 20 required roles exist with valid configurations in ROLE_DATABASE');
+
+  // Verify Aliases
+  const iosAlias = getRoleConfig("iOS Developer");
+  assert(iosAlias.title === "iOS Developer (Swift / SwiftUI)", 'Alias "iOS Developer" correctly mapped to "iOS Developer (Swift / SwiftUI)"');
+
+  const designerAlias = getRoleConfig("UI Designer");
+  assert(designerAlias.title === "UI/UX Designer", 'Alias "UI Designer" correctly mapped to "UI/UX Designer"');
+
+  const figmaAlias = getRoleConfig("Figma Expert");
+  assert(figmaAlias.title === "UI/UX Designer", 'Alias "Figma Expert" correctly mapped to "UI/UX Designer"');
+
+  // TEST 4: Rule-based ATS Engine Calculation
+  console.log('\nTEST 4: Rule-Based ATS Scoring Engine...');
   try {
     const analysis = analyzeResume(extractedText, 'Full Stack Developer');
     assert(typeof analysis.atsScore === 'number' && analysis.atsScore > 0 && analysis.atsScore <= 100, `Overall ATS score calculated: ${analysis.atsScore}/100`);
@@ -96,8 +189,41 @@ async function runTests() {
     assert(false, `ATS Engine failed: ${atsErr.message}`);
   }
 
-  // TEST 4: Job Description Matcher
-  console.log('\nTEST 4: Job Description Matching Algorithm...');
+  // TEST 5: ATS Scoring Across Different Domain Roles (UI/UX, iOS, GenAI)
+  console.log('\nTEST 5: Multi-Domain ATS Scoring Verification...');
+  try {
+    const uiuxResume = `
+      MAYANK SHARMA
+      UI/UX Designer | mayank@example.com | +91-9876543210
+      SUMMARY: Passionate UI/UX Designer with 3+ years experience in Figma, wireframing, prototyping, and design systems.
+      EXPERIENCE: Senior UI/UX Designer at TechCorp (2022-2025)
+      - Spearheaded design systems and interactive prototypes in Figma, improving usability by 30%.
+      SKILLS: Figma, Adobe XD, Wireframing, Prototyping, User Research, Usability Testing, HTML, CSS.
+      PROJECTS: E-Commerce Redesign - Built complete Figma design system and high-fidelity prototype.
+      EDUCATION: Bachelor of Design in Human Computer Interaction.
+    `;
+    const uiuxAnalysis = analyzeResume(uiuxResume, 'UI/UX Designer');
+    assert(uiuxAnalysis.detectedSkills.includes('Figma'), 'Detected Figma skill in UI/UX resume');
+    assert(uiuxAnalysis.detectedSkills.includes('Wireframing'), 'Detected Wireframing skill in UI/UX resume');
+    assert(uiuxAnalysis.atsScore >= 60, `UI/UX Designer ATS score evaluated accurately: ${uiuxAnalysis.atsScore}%`);
+
+    const iosResume = `
+      ALEX BROWN
+      iOS Developer | alex@example.com
+      SUMMARY: iOS Engineer specialized in Swift, SwiftUI, UIKit, and Core Data.
+      SKILLS: Swift, SwiftUI, UIKit, Xcode, Core Data, Git, REST APIs.
+      PROJECTS: Social App - Developed native iOS app with SwiftUI and Combine.
+    `;
+    const iosAnalysis = analyzeResume(iosResume, 'iOS Developer (Swift / SwiftUI)');
+    assert(iosAnalysis.detectedSkills.includes('Swift'), 'Detected Swift in iOS resume');
+    assert(iosAnalysis.detectedSkills.includes('SwiftUI'), 'Detected SwiftUI in iOS resume');
+    assert(iosAnalysis.atsScore >= 60, `iOS Developer ATS score evaluated accurately: ${iosAnalysis.atsScore}%`);
+  } catch (domainErr) {
+    assert(false, `Multi-domain ATS scoring failed: ${domainErr.message}`);
+  }
+
+  // TEST 6: Job Description Matcher
+  console.log('\nTEST 6: Job Description Matching Algorithm...');
   try {
     const jobDescriptionSample = `
       Looking for a Full Stack Developer proficient in React, Node.js, Express, MongoDB, TypeScript, Docker, and AWS.
@@ -115,29 +241,31 @@ async function runTests() {
     assert(false, `Job Matcher failed: ${matchErr.message}`);
   }
 
-  // TEST 5: AI Resume Improvement & Fallback
-  console.log('\nTEST 5: AI Resume Improvement Service...');
+  // TEST 7: AI Resume Improvement & Fallback
+  console.log('\nTEST 7: AI Resume Improvement Service...');
   try {
     const improvements = await generateResumeImprovements(extractedText, 'Full Stack Developer');
     assert(improvements.improvedSummary && improvements.improvedSummary.length > 20, 'Generated improved professional summary');
     assert(Array.isArray(improvements.bulletImprovements) && improvements.bulletImprovements.length > 0, `Generated ${improvements.bulletImprovements.length} bullet point rewrites`);
     assert(improvements.recommendedActionVerbs.length > 0, 'Generated recommended action verbs');
+    assert(improvements.analysisMode === 'gemini' || improvements.analysisMode === 'heuristic', `Active improvement mode verified: ${improvements.analysisMode}`);
   } catch (aiErr) {
     assert(false, `AI Resume Improvement failed: ${aiErr.message}`);
   }
 
-  // TEST 6: AI Interview Question Generation
-  console.log('\nTEST 6: AI Interview Question Generation...');
+  // TEST 8: AI Interview Question Generation
+  console.log('\nTEST 8: AI Interview Question Generation...');
   try {
     const questionsRes = await generateInterviewQuestions(extractedText, 'Full Stack Developer');
     assert(Array.isArray(questionsRes.questions) && questionsRes.questions.length >= 4, `Generated ${questionsRes.questions.length} tailored interview questions`);
     assert(questionsRes.questions[0].category && questionsRes.questions[0].difficulty, 'Questions contain category and difficulty attributes');
+    assert(typeof questionsRes.statusBanner === 'string' && questionsRes.statusBanner.length > 0, 'Status banner generated correctly');
   } catch (qErr) {
     assert(false, `Interview Questions Generator failed: ${qErr.message}`);
   }
 
-  // TEST 7: Mock Interview Answer Evaluation
-  console.log('\nTEST 7: Interview Answer Evaluation...');
+  // TEST 9: Mock Interview Answer Evaluation
+  console.log('\nTEST 9: Interview Answer Evaluation...');
   try {
     const evalRes = await evaluateInterviewAnswer(
       "How did you implement the AI Interview Coach project?",
@@ -151,11 +279,39 @@ async function runTests() {
     assert(false, `Answer Evaluation failed: ${evalErr.message}`);
   }
 
-  // TEST 8: MongoDB Models & Persistence
-  console.log('\nTEST 8: MongoDB Persistence & Schemas...');
+  // TEST 10: AI Mode Detection & Error Classification
+  console.log('\nTEST 10: AI Mode Detection & Status Banners...');
+  try {
+    const status = getAiStatus();
+    assert(status.mode === 'gemini' || status.mode === 'heuristic', `AI status reports valid mode: ${status.mode}`);
+    assert(
+      status.statusBanner.includes('AI Analysis Active') || status.statusBanner.includes('Basic Analysis Mode'),
+      `Status banner text is user-friendly: "${status.statusBanner}"`
+    );
+
+    // Test error classification
+    const invalidKeyError = classifyApiError(new Error('API key not valid. Please pass a valid API key.'));
+    assert(invalidKeyError.type === 'INVALID_KEY', 'Correctly classified INVALID_KEY error');
+    assert(invalidKeyError.userMessage.includes('Invalid Gemini API key'), 'Invalid key provides meaningful configuration error message');
+
+    const quotaError = classifyApiError(new Error('Resource has been exhausted (e.g. check quota). [429]'));
+    assert(quotaError.type === 'QUOTA_EXCEEDED', 'Correctly classified QUOTA_EXCEEDED error');
+    assert(quotaError.userMessage.includes('quota exceeded'), 'Quota error provides informative message');
+
+    // Test resume analysis with dual mode support
+    const resumeAnalysis = await analyzeResumeWithGemini(extractedText, 'Full Stack Developer');
+    assert(typeof resumeAnalysis.atsScore === 'number' && resumeAnalysis.atsScore > 0, `Resume analysis completed with score: ${resumeAnalysis.atsScore}`);
+    assert(resumeAnalysis.analysisMode === 'gemini' || resumeAnalysis.analysisMode === 'heuristic', `Resume analysis reports mode: ${resumeAnalysis.analysisMode}`);
+    assert(typeof resumeAnalysis.statusBanner === 'string' && resumeAnalysis.statusBanner.length > 0, `Resume analysis contains status banner: "${resumeAnalysis.statusBanner}"`);
+  } catch (modeErr) {
+    assert(false, `AI Mode verification failed: ${modeErr.message}`);
+  }
+
+  // TEST 11: MongoDB Models & Persistence
+  console.log('\nTEST 11: MongoDB Persistence & Schemas...');
   if (mongoose.connection.readyState === 1) {
     try {
-      // Save test analysis
+      // Save test analysis with analysisMode and statusBanner
       const testAnalysis = new Analysis({
         fileName: 'Test-Verification-Resume.pdf',
         targetRole: 'Full Stack Developer',
@@ -163,7 +319,9 @@ async function runTests() {
         atsScore: 84,
         scoreBreakdown: { keywords: 80, skills: 85, structure: 90, formatting: 85, experience: 80, education: 90 },
         detectedSkills: ['React', 'Node.js', 'MongoDB'],
-        missingSkills: ['Docker', 'AWS']
+        missingSkills: ['Docker', 'AWS'],
+        analysisMode: 'heuristic',
+        statusBanner: 'Basic Analysis Mode – AI-powered recommendations are currently unavailable.'
       });
       const savedAnalysis = await testAnalysis.save();
       assert(savedAnalysis._id !== null, `Persisted Analysis to MongoDB with ID: ${savedAnalysis._id}`);
@@ -171,6 +329,7 @@ async function runTests() {
       // Query saved analysis
       const fetchedAnalysis = await Analysis.findById(savedAnalysis._id);
       assert(fetchedAnalysis.atsScore === 84, 'Queried and verified saved analysis from MongoDB');
+      assert(fetchedAnalysis.analysisMode === 'heuristic', 'Stored analysisMode field matches schema');
 
       // Test Contact Form schema
       const testContact = new Contact({
