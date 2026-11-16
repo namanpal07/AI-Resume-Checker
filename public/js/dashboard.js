@@ -6,11 +6,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   // 1. Time-based dynamic greeting
   const greetingText = document.getElementById('greetingText');
   if (greetingText) {
+    const candidateName = localStorage.getItem('candidateName') || 'Naman Pal';
     const hour = new Date().getHours();
-    let greet = 'Good afternoon 👋';
-    if (hour < 12) greet = 'Good morning 👋';
-    else if (hour >= 18) greet = 'Good evening 👋';
-    greetingText.textContent = greet;
+    let greet = 'Good afternoon';
+    if (hour < 12) greet = 'Good morning';
+    else if (hour >= 18) greet = 'Good evening';
+    greetingText.textContent = `${greet}, ${candidateName} 👋`;
   }
 
   // 2. Fetch Reports from MongoDB

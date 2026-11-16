@@ -68,8 +68,8 @@
         <div class="user-profile-pill">
           <div class="profile-avatar">N</div>
           <div class="profile-info">
-            <span class="profile-name">Candidate Profile</span>
-            <span class="profile-role current-role-badge">Software Engineer</span>
+            <span class="profile-name">Naman Pal</span>
+            <span class="profile-role current-role-badge">Resume Candidate</span>
           </div>
         </div>
         <button class="theme-toggle-btn" aria-label="Toggle Theme" title="Switch Theme">
@@ -110,6 +110,35 @@
         </div>
 
         <div id="aiStatusNotice" style="display: none; margin-bottom: 1.5rem;"></div>
+
+        <!-- SECTION: LINE-BY-LINE SECTIONAL RESUME FEEDBACK -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <div class="card-header" style="flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3 class="card-title">🔍 Line-by-Line Sectional Resume Feedback</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 4px;">
+                Precise evaluation of your actual resume lines across 6 core sections with concrete rewrites and recruiter impact analysis.
+              </p>
+            </div>
+            <span class="badge badge-accent" id="sectionalCountBadge">6 Sections Analyzed</span>
+          </div>
+
+          <!-- SECTION FILTER TABS -->
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; margin-bottom: 1.5rem; overflow-x: auto; padding-bottom: 4px;" id="sectionFilterTabs">
+            <button class="btn btn-primary btn-sm sec-filter-btn active" data-sec="all">All Sections</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Contact Information">Contact Info</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Professional Summary">Summary</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Technical Skills">Technical Skills</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Projects">Projects</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Education">Education</button>
+            <button class="btn btn-outline btn-sm sec-filter-btn" data-sec="Experience and Internships">Experience & Internships</button>
+          </div>
+
+          <!-- SECTION FEEDBACK CARDS CONTAINER -->
+          <div id="sectionImprovementsContainer" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div style="text-align: center; color: var(--text-muted); padding: 2rem;">Loading line-by-line sectional suggestions...</div>
+          </div>
+        </div>
 
         <!-- SECTION 1: PROFESSIONAL SUMMARY REWRITE -->
         <div class="card" style="margin-bottom: 2rem;">

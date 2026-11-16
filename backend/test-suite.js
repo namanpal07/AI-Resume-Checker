@@ -350,6 +350,98 @@ async function runTests() {
     }
   }
 
+  // TEST 12: Contact Email Endpoint & Dispatch Logic
+  console.log('\nTEST 12: Contact Email Dispatch Verification...');
+  try {
+    const contactController = require('./controllers/contactController');
+    assert(typeof contactController.submitContact === 'function', 'contactController exports submitContact handler');
+
+    // Simulate mock req and res
+    let resStatus = null;
+    let resJson = null;
+    const mockRes = {
+      status: (code) => { resStatus = code; return mockRes; },
+      json: (data) => { resJson = data; return mockRes; }
+    };
+
+    // Test validation failure
+    await contactController.submitContact({ body: { name: '', email: 'bademail', message: '' } }, mockRes);
+    assert(resStatus === 400, 'Rejects invalid contact submission with HTTP 400');
+    assert(resJson && resJson.success === false, 'Returns validation failure response');
+
+    // Test valid contact payload
+    await contactController.submitContact({
+      body: {
+        name: 'Naman Pal Test',
+        email: 'namancse9258@gmail.com',
+        subject: 'Automated Test Submission',
+        message: 'Verifying email dispatch and storage functionality.'
+      }
+    }, mockRes);
+    assert(resStatus === 200 || resStatus === 201, `Valid contact form handled with status ${resStatus}`);
+    assert(resJson && resJson.success === true, 'Contact submission returns success: true');
+    assert(resJson.data && resJson.data.receiverEmail === 'namancse9258@gmail.com', 'Target receiver email is confirmed as namancse9258@gmail.com');
+  } catch (contactErr) {
+    assert(false, `Contact verification failed: ${contactErr.message}`);
+  }
+
+  // TEST 13: Line-by-Line Sectional Resume Feedback Verification
+  console.log('\nTEST 13: 6-Section Line-by-Line Feedback Structure Verification...');
+  try {
+    const improvements = await generateResumeImprovements(extractedText, 'Software Engineer');
+    assert(Array.isArray(improvements.sectionImprovements), 'Improvements output contains sectionImprovements array');
+    assert(improvements.sectionImprovements.length >= 6, `Generated ${improvements.sectionImprovements.length} sectional improvements`);
+
+    const sectionsFound = improvements.sectionImprovements.map(s => s.section);
+    assert(sectionsFound.includes('Contact Information'), 'Section A included: Contact Information');
+    assert(sectionsFound.includes('Professional Summary'), 'Section B included: Professional Summary');
+    assert(sectionsFound.includes('Technical Skills'), 'Section C included: Technical Skills');
+    assert(sectionsFound.includes('Projects'), 'Section D included: Projects');
+    assert(sectionsFound.includes('Education'), 'Section E included: Education');
+    assert(sectionsFound.includes('Experience and Internships'), 'Section F included: Experience and Internships');
+
+    // Verify item fields
+    const firstSec = improvements.sectionImprovements[0];
+    assert(firstSec.section && firstSec.original && firstSec.problem && firstSec.improved && firstSec.reason,
+      'Every sectional improvement contains section, original, problem, improved, and reason attributes');
+  } catch (secErr) {
+    assert(false, `Sectional feedback verification failed: ${secErr.message}`);
+  }
+
+  // TEST 14: Comprehensive Interview Coach Breakdown Attributes
+  console.log('\nTEST 14: Interview Coach Accordion & Tailored Sample Answers...');
+  try {
+    const interviewData = await generateInterviewQuestions(extractedText, 'Software Engineer');
+    const questions = interviewData.questions;
+    assert(questions.length === 6, `Generated exactly 6 interview questions (got ${questions.length})`);
+
+    const qCats = questions.map(q => q.category);
+    assert(qCats.includes('Technical'), 'Category included: Technical');
+    assert(qCats.includes('Projects'), 'Category included: Projects');
+    assert(qCats.includes('Behavioral'), 'Category included: Behavioral');
+    assert(qCats.includes('Role-Specific'), 'Category included: Role-Specific');
+
+    // Verify accordion breakdown fields
+    const pQ = questions.find(q => q.category === 'Projects');
+    assert(pQ && typeof pQ.whatInterviewerWants === 'string', 'Project question contains "whatInterviewerWants" explanation');
+    assert(pQ && Array.isArray(pQ.keyConcepts) && pQ.keyConcepts.length > 0, 'Project question contains "keyConcepts" array');
+    assert(pQ && typeof pQ.answerStructure === 'string', 'Project question contains "answerStructure" framework');
+    assert(pQ && typeof pQ.sampleAnswer === 'string' && pQ.sampleAnswer.length > 30, 'Project question contains tailored "sampleAnswer"');
+  } catch (coachErr) {
+    assert(false, `Interview coach verification failed: ${coachErr.message}`);
+  }
+
+  // TEST 15: Candidate Profile Defaults & Consistency
+  console.log('\nTEST 15: Candidate Profile UI Defaults & Consistency...');
+  try {
+    const dashboardHtml = fs.readFileSync(path.join(__dirname, '../frontend/dashboard.html'), 'utf8');
+    assert(dashboardHtml.includes('Naman Pal'), 'Dashboard HTML sets default candidate name to "Naman Pal"');
+    assert(dashboardHtml.includes('Resume Candidate'), 'Dashboard HTML sets default neutral role badge to "Resume Candidate"');
+    assert(!dashboardHtml.includes('UI/UX Designer</span>'), 'Dashboard HTML does not hardcode "UI/UX Designer" for candidate profile');
+  } catch (profileErr) {
+    assert(false, `Profile verification failed: ${profileErr.message}`);
+  }
+
   console.log('\n====================================================');
   console.log(`TEST SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('====================================================');

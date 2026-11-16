@@ -46,7 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const roleName = card.getAttribute('data-role-name');
       if (roleName) {
         localStorage.setItem('selectedRole', roleName);
+        localStorage.setItem('explicitlySelectedRole', 'true');
         highlightSelectedRole(roleName);
+        if (typeof syncUserProfile === 'function') syncUserProfile();
 
         if (typeof showToast === 'function') {
           showToast(`Selected role: ${roleName}`, 'success');
@@ -66,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const roleName = btn.getAttribute('data-role');
         if (roleName) {
           localStorage.setItem('selectedRole', roleName);
+          localStorage.setItem('explicitlySelectedRole', 'true');
           highlightSelectedRole(roleName);
+          if (typeof syncUserProfile === 'function') syncUserProfile();
           setTimeout(() => {
             window.location.href = 'upload.html';
           }, 200);

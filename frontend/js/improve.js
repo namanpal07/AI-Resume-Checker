@@ -10,11 +10,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const summaryBox = document.getElementById('improvedSummaryBox');
   const bulletsContainer = document.getElementById('bulletImprovementsContainer');
+  const sectionImprovementsContainer = document.getElementById('sectionImprovementsContainer');
+  const sectionalCountBadge = document.getElementById('sectionalCountBadge');
   const verbsContainer = document.getElementById('actionVerbsContainer');
   const tipsList = document.getElementById('actionableTipsList');
   const btnCopySummary = document.getElementById('btnCopySummary');
   const btnRefresh = document.getElementById('btnRefreshAi');
   const aiStatusNotice = document.getElementById('aiStatusNotice');
+
+  let allSectionImprovements = [];
 
   if (!rawText || rawText.trim().length === 0) {
     if (summaryBox) {
@@ -105,6 +109,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     }
 
+    // Render Line-by-Line Sectional Improvements
+    allSectionImprovements = data.sectionImprovements || [];
+    if (sectionalCountBadge) {
+      sectionalCountBadge.textContent = `${allSectionImprovements.length} Suggestions Generated`;
+    }
+    renderSectionImprovements(allSectionImprovements);
+
     // Render Summary
     if (summaryBox) {
       summaryBox.textContent = data.improvedSummary || 'Results-driven developer with proven experience building scalable software.';
@@ -188,6 +199,110 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
   }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function renderSectionImprovements(items) {
+    if (!sectionImprovementsContainer) return;
+    sectionImprovementsContainer.innerHTML = '';
+
+    if (!items || items.length === 0) {
+      sectionImprovementsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No improvements found for this section filter.</p>';
+      return;
+    }
+
+    items.forEach((item, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.style.background = 'var(--bg-surface-elevated)';
+      card.style.border = '1px solid var(--border-subtle)';
+      card.style.borderRadius = 'var(--radius-lg)';
+      card.style.padding = '1.25rem';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.gap = '12px';
+
+      card.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-accent">${escapeHtml(item.section || 'General')}</span>
+            <span style="font-size: 0.8rem; color: var(--text-muted);">Suggestion #${idx + 1}</span>
+          </div>
+          <button class="btn btn-outline btn-sm btn-copy-sec" style="padding: 4px 10px; font-size: 0.8rem;">
+            📋 Copy Rewrite
+          </button>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--color-danger); text-transform: uppercase; letter-spacing: 0.5px;">Original Resume Text</span>
+          </div>
+          <div style="color: var(--text-secondary); font-size: 0.9rem; background: rgba(239, 68, 68, 0.05); border-left: 3px solid var(--color-danger); padding: 10px 14px; border-radius: 0 var(--radius-md) var(--radius-md) 0; line-height: 1.5; white-space: pre-wrap;">
+            ${escapeHtml(item.original)}
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--color-warning); text-transform: uppercase; letter-spacing: 0.5px;">⚠️ Identified Problem</span>
+          </div>
+          <div style="color: var(--text-muted); font-size: 0.88rem; background: rgba(245, 158, 11, 0.06); border-left: 3px solid var(--color-warning); padding: 8px 12px; border-radius: 0 var(--radius-md) var(--radius-md) 0; line-height: 1.5;">
+            ${escapeHtml(item.problem)}
+          </div>
+        </div>
+
+        <div>
+          <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--color-success); text-transform: uppercase; letter-spacing: 0.5px;">✅ Suggested Professional Rewrite</span>
+          </div>
+          <div style="color: var(--text-primary); font-weight: 500; font-size: 0.94rem; background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--color-success); padding: 10px 14px; border-radius: 0 var(--radius-md) var(--radius-md) 0; line-height: 1.5; white-space: pre-wrap;">
+            ${escapeHtml(item.improved)}
+          </div>
+        </div>
+
+        <div style="font-size: 0.84rem; color: var(--text-muted); padding-top: 4px; border-top: 1px dashed var(--border-subtle);">
+          <strong style="color: var(--text-secondary);">💡 Why this is better:</strong> ${escapeHtml(item.reason)}
+        </div>
+      `;
+
+      const copyBtn = card.querySelector('.btn-copy-sec');
+      if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(item.improved);
+          showToast('Copied suggested improvement to clipboard!', 'success');
+        });
+      }
+
+      sectionImprovementsContainer.appendChild(card);
+    });
+  }
+
+  // Section Filter Buttons
+  const secFilterBtns = document.querySelectorAll('.sec-filter-btn');
+  secFilterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      secFilterBtns.forEach(b => {
+        b.className = 'btn btn-outline btn-sm sec-filter-btn';
+      });
+      btn.className = 'btn btn-primary btn-sm sec-filter-btn active';
+
+      const sec = btn.getAttribute('data-sec');
+      if (sec === 'all') {
+        renderSectionImprovements(allSectionImprovements);
+      } else {
+        const filtered = allSectionImprovements.filter(item => (item.section || '').toLowerCase() === sec.toLowerCase());
+        renderSectionImprovements(filtered);
+      }
+    });
+  });
 
   // Copy Summary Button
   if (btnCopySummary) {

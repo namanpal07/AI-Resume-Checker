@@ -39,7 +39,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   let allQuestions = [];
   let currentActiveQuestion = null;
 
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
   async function loadQuestions() {
+    if (btnRegenerate) {
+      btnRegenerate.disabled = true;
+      btnRegenerate.innerHTML = `<span>⏳</span> Generating Questions...`;
+    }
     if (questionsContainer) {
       questionsContainer.innerHTML = '<div style="text-align: center; color: var(--text-muted); padding: 3rem;">Synthesizing questions based on your resume projects and role...</div>';
     }
@@ -97,6 +111,11 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (questionsContainer) {
         questionsContainer.innerHTML = '<p style="color: var(--color-danger); text-align: center;">Could not load interview questions. Please try again.</p>';
       }
+    } finally {
+      if (btnRegenerate) {
+        btnRegenerate.disabled = false;
+        btnRegenerate.innerHTML = `🔄 Regenerate Questions`;
+      }
     }
   }
 
@@ -105,7 +124,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     questionsContainer.innerHTML = '';
 
     if (questions.length === 0) {
-      questionsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center;">No questions match this category.</p>';
+      questionsContainer.innerHTML = '<p style="color: var(--text-muted); text-align: center; padding: 2rem;">No questions match this category.</p>';
       return;
     }
 
@@ -114,32 +133,110 @@ document.addEventListener('DOMContentLoaded', async () => {
       card.className = 'card card-hover';
       card.style.display = 'flex';
       card.style.flexDirection = 'column';
-      card.style.gap = '10px';
+      card.style.gap = '12px';
+      card.style.background = 'var(--bg-surface-elevated)';
+      card.style.border = '1px solid var(--border-subtle)';
+      card.style.borderRadius = 'var(--radius-lg)';
+      card.style.padding = '1.35rem';
 
       const diffClass = q.difficulty === 'Hard' ? 'badge-danger' : (q.difficulty === 'Medium' ? 'badge-warning' : 'badge-success');
 
       card.innerHTML = `
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; gap: 8px;">
-            <span class="badge badge-accent">${q.category || 'Technical'}</span>
-            <span class="badge ${diffClass}">${q.difficulty || 'Medium'}</span>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="badge badge-accent">${escapeHtml(q.category || 'Technical')}</span>
+            <span class="badge ${diffClass}">${escapeHtml(q.difficulty || 'Medium')}</span>
           </div>
-          <span style="font-size: 0.8rem; color: var(--text-muted);">Q#${idx + 1}</span>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Question #${idx + 1}</span>
         </div>
 
-        <h3 style="font-size: 1.15rem; color: var(--text-primary); line-height: 1.4; margin: 4px 0;">
-          ${q.question}
+        <h3 style="font-size: 1.15rem; color: var(--text-primary); line-height: 1.4; margin: 2px 0;">
+          ${escapeHtml(q.question)}
         </h3>
 
-        ${q.context ? `<p style="font-size: 0.82rem; color: var(--text-muted);"><em>Context: ${q.context}</em></p>` : ''}
+        ${q.context ? `<p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.4;"><em>💡 Resume Context: ${escapeHtml(q.context)}</em></p>` : ''}
 
-        <div style="display: flex; justify-content: flex-end; margin-top: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 4px;">
+          <button class="btn btn-outline btn-sm btn-toggle-breakdown" style="padding: 6px 12px; font-size: 0.82rem; display: flex; align-items: center; gap: 6px;">
+            <span>🔍</span> View Coach Breakdown ▾
+          </button>
           <button class="btn btn-primary btn-sm btn-start-practice" data-index="${idx}">
             <span>🎙️</span> Practice Answering
           </button>
         </div>
+
+        <!-- EXPANDABLE ACCORDION COACH BREAKDOWN -->
+        <div class="coach-breakdown-details" style="display: none; margin-top: 8px; padding-top: 14px; border-top: 1px dashed var(--border-subtle); flex-direction: column; gap: 12px;">
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 600; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+              🎯 What the Interviewer Wants to Know
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-primary); background: var(--bg-surface); padding: 10px 14px; border-radius: var(--radius-md); border-left: 3px solid var(--color-primary); line-height: 1.5;">
+              ${escapeHtml(q.whatInterviewerWants || 'Assesses technical depth, architectural ownership, and clear reasoning.')}
+            </div>
+          </div>
+
+          ${Array.isArray(q.keyConcepts) && q.keyConcepts.length > 0 ? `
+            <div>
+              <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+                🔑 Important Concepts to Cover
+              </div>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                ${q.keyConcepts.map(c => `<span class="badge badge-accent" style="font-size: 0.78rem; padding: 4px 10px;">${escapeHtml(c)}</span>`).join('')}
+              </div>
+            </div>
+          ` : ''}
+
+          <div>
+            <div style="font-size: 0.82rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">
+              📐 Suggested Answer Structure
+            </div>
+            <div style="font-size: 0.86rem; color: var(--text-muted); background: var(--bg-surface); padding: 8px 12px; border-radius: var(--radius-md); line-height: 1.4;">
+              ${escapeHtml(q.answerStructure || 'STAR Method: Situation, Task, Action, and Measurable Result.')}
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+              <div style="font-size: 0.82rem; font-weight: 600; color: var(--color-success); text-transform: uppercase; letter-spacing: 0.5px;">
+                💬 Model Answer (Tailored to Your Resume)
+              </div>
+              <button class="btn btn-outline btn-sm btn-copy-sample" style="padding: 2px 8px; font-size: 0.75rem;">
+                📋 Copy
+              </button>
+            </div>
+            <div style="font-size: 0.88rem; color: var(--text-primary); background: rgba(16, 185, 129, 0.08); border-left: 3px solid var(--color-success); padding: 10px 14px; border-radius: 0 var(--radius-md) var(--radius-md) 0; line-height: 1.5; white-space: pre-wrap;">
+              ${escapeHtml(q.sampleAnswer || 'Model answer demonstrating practical implementation and quantitative results.')}
+            </div>
+          </div>
+        </div>
       `;
 
+      // Accordion toggle handler
+      const toggleBtn = card.querySelector('.btn-toggle-breakdown');
+      const detailsBox = card.querySelector('.coach-breakdown-details');
+      if (toggleBtn && detailsBox) {
+        toggleBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const isHidden = detailsBox.style.display === 'none';
+          detailsBox.style.display = isHidden ? 'flex' : 'none';
+          toggleBtn.innerHTML = isHidden 
+            ? `<span>🔍</span> Hide Coach Breakdown ▴` 
+            : `<span>🔍</span> View Coach Breakdown ▾`;
+        });
+      }
+
+      // Copy Sample Answer handler
+      const copyBtn = card.querySelector('.btn-copy-sample');
+      if (copyBtn && q.sampleAnswer) {
+        copyBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navigator.clipboard.writeText(q.sampleAnswer);
+          showToast('Copied model answer to clipboard!', 'success');
+        });
+      }
+
+      // Practice button handler
       const practiceBtn = card.querySelector('.btn-start-practice');
       if (practiceBtn) {
         practiceBtn.addEventListener('click', () => {
@@ -261,11 +358,15 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
       btn.className = 'btn btn-primary btn-sm filter-btn active';
 
-      const filter = btn.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-filter') || 'all';
       if (filter === 'all') {
         renderQuestions(allQuestions);
       } else {
-        const filtered = allQuestions.filter(q => q.category === filter);
+        const normFilter = filter.toLowerCase().replace(/[\s-_]/g, '').replace(/s$/, '');
+        const filtered = allQuestions.filter(q => {
+          const cat = (q.category || '').toLowerCase().replace(/[\s-_]/g, '').replace(/s$/, '');
+          return cat === normFilter || cat.includes(normFilter);
+        });
         renderQuestions(filtered);
       }
     });

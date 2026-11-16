@@ -48,16 +48,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 3. Sync User's Selected Role into header badges if present
-  const savedRole = localStorage.getItem('selectedRole');
-  const headerRoleBadge = document.querySelectorAll('.current-role-badge');
-  if (savedRole) {
-    headerRoleBadge.forEach(badge => badge.textContent = savedRole);
-  }
+  // 3. Candidate Profile & Target Role synchronization
+  syncUserProfile();
 
   // 4. Dark / Light Theme Switcher Logic
   initThemeSwitcher();
 });
+
+/**
+ * Ensures consistent Candidate Profile information across all pages:
+ * - Candidate Name: Always "Naman Pal" (unless dynamic candidate name is loaded)
+ * - Profile Role: Target role if chosen, or neutral "Resume Candidate"
+ * - Avatar: "N"
+ */
+function syncUserProfile() {
+  const candidateName = localStorage.getItem('candidateName') || 'Naman Pal';
+  const profileNameEls = document.querySelectorAll('.profile-name');
+  profileNameEls.forEach(el => el.textContent = candidateName);
+
+  const profileAvatarEls = document.querySelectorAll('.profile-avatar');
+  profileAvatarEls.forEach(el => el.textContent = candidateName.charAt(0).toUpperCase() || 'N');
+
+  const savedRole = localStorage.getItem('selectedRole');
+  const roleBadges = document.querySelectorAll('.current-role-badge');
+
+  if (savedRole && savedRole.trim() && savedRole !== 'UI/UX Designer') {
+    roleBadges.forEach(badge => badge.textContent = savedRole);
+  } else if (savedRole === 'UI/UX Designer' && !localStorage.getItem('explicitlySelectedRole')) {
+    // Clear residual test role
+    localStorage.removeItem('selectedRole');
+    roleBadges.forEach(badge => badge.textContent = 'Resume Candidate');
+  } else if (savedRole) {
+    roleBadges.forEach(badge => badge.textContent = savedRole);
+  } else {
+    roleBadges.forEach(badge => badge.textContent = 'Resume Candidate');
+  }
+}
 
 function initThemeSwitcher() {
   const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
